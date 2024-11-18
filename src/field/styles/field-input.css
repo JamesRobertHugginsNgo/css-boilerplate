@@ -38,7 +38,7 @@ input[type="search"].field-input {
   padding-left: 2rem;
 }
 
-select.field-input {
+select.field-input:not([multiple]) {
   appearance: none;
   background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgZmlsbD0iY3VycmVudENvbG9yIiB2aWV3Qm94PSIwIDAgMTYgMTYiPgogIDxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgZD0iTTMuNjQ2IDkuMTQ2YS41LjUgMCAwIDEgLjcwOCAwTDggMTIuNzkzbDMuNjQ2LTMuNjQ3YS41LjUgMCAwIDEgLjcwOC43MDhsLTQgNGEuNS41IDAgMCAxLS43MDggMGwtNC00YS41LjUgMCAwIDEgMC0uNzA4bTAtMi4yOTJhLjUuNSAwIDAgMCAuNzA4IDBMOCAzLjIwN2wzLjY0NiAzLjY0N2EuNS41IDAgMCAwIC43MDgtLjcwOGwtNC00YS41LjUgMCAwIDAtLjcwOCAwbC00IDRhLjUuNSAwIDAgMCAwIC43MDgiLz4KPC9zdmc+");
   background-position: center right 0.5rem;
