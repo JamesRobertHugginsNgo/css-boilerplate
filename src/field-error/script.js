@@ -2,7 +2,7 @@
 // HELPER FUNCTIONS
 // ==
 
-function getBetterCustomValidityMessage(fieldEl, inputEl) {
+function getBetterCustomValidityMessage(inputEl) {
   // if (inputEl.validity.customError) {
   //   return;
   // }
@@ -35,44 +35,44 @@ function getBetterCustomValidityMessage(fieldEl, inputEl) {
   // }
 }
 
-function setupValidity(fieldEl, inputEl) {
-  if (!inputEl.willValidate) {
+// function handleInvalid(fieldEl, inputEl, errorEl) {
+//   if (!inputEl.willValidate) {
+//     return;
+//   }
+
+//   errorEl.textContent = inputEl.validationMessage;
+//   !fieldEl.classList.contains('field-error') && fieldEl.classList.add('field-error');
+// }
+
+// ==
+// METHODS & EVENT LISTENER
+// ==
+
+function inputSetupValidity() {
+  if (!this.willValidate) {
     return;
   }
 
-  fieldEl.classList.contains('field-error') && fieldEl.classList.remove('field-error');
+  this.fieldEl.classList.contains('field-error') && this.fieldEl.classList.remove('field-error');
 
-  if (fieldEl.customValidityValidations) {
-    for (const getCustomValidityMessage of fieldEl.customValidityValidations) {
-      const message = getCustomValidityMessage(fieldEl, inputEl);
+  if (this.fieldEl.customValidityValidations) {
+    for (const getCustomValidityMessage of this.fieldEl.customValidityValidations) {
+      const message = getCustomValidityMessage(this.fieldEl, this);
       if (message) {
-        inputEl.setCustomValidity(message);
+        this.setCustomValidity(message);
         return;
       }
     }
   }
 
-  const message = getBetterCustomValidityMessage(fieldEl, inputEl);
+  const message = getBetterCustomValidityMessage(this);
   if (message) {
-    inputEl.setCustomValidity(message);
+    this.setCustomValidity(message);
     return;
   }
 
-  inputEl.validity.customError && inputEl.setCustomValidity('');
+  this.validity.customError && this.setCustomValidity('');
 };
-
-function handleInvalid(fieldEl, inputEl, errorEl) {
-  if (!inputEl.willValidate) {
-    return;
-  }
-
-  errorEl.textContent = inputEl.validationMessage;
-  !fieldEl.classList.contains('field-error') && fieldEl.classList.add('field-error');
-}
-
-// ==
-// METHODS & EVENT LISTENER
-// ==
 
 function inputCheckValidity(...args) {
   this.setupValidity();
@@ -82,6 +82,18 @@ function inputCheckValidity(...args) {
 function inputReportValidity(...args) {
   this.setupValidity();
   return this.originalReportValidity(...args);
+};
+
+function inputInvalidEventListener(event) {
+  // UNCOMMENT WHEN PREVENTING BROWSER ERROR MESSAGE POP UP ON SUBMIT
+  // event.preventDefault();
+
+  if (!this.willValidate) {
+    return;
+  }
+
+  this.errorEl.textContent = this.validationMessage;
+  !this.fieldEl.classList.contains('field-error') && this.fieldEl.classList.add('field-error');
 };
 
 function formReportValidity(...args) {
@@ -112,9 +124,10 @@ export function addFieldValidation(fieldEl) {
   const errorEl = fieldEl.querySelector('.field-error-text');
 
   for (const inputEl of fieldEl.querySelectorAll('input, select, textarea')) {
-    inputEl.setupValidity = () => {
-      setupValidity(fieldEl, inputEl);
-    };
+    inputEl.fieldEl = fieldEl;
+    inputEl.errorEl = errorEl;
+
+    inputEl.setupValidity = inputSetupValidity;
 
     inputEl.originalCheckValidity = inputEl.originalCheckValidity || inputEl.checkValidity;
     inputEl.checkValidity = inputCheckValidity;
@@ -125,12 +138,7 @@ export function addFieldValidation(fieldEl) {
     inputEl.addEventListener('input', inputCheckValidity);
     inputEl.addEventListener('change', inputCheckValidity);
 
-    inputEl.invalidEventListener = (event) => {
-      // UNCOMMENT WHEN PREVENTING BROWSER ERROR MESSAGE POP UP ON SUBMIT
-      // event.preventDefault();
-      handleInvalid(fieldEl, inputEl, errorEl);
-    };
-    inputEl.addEventListener('invalid', inputEl.invalidEventListener);
+    inputEl.addEventListener('invalid', inputInvalidEventListener);
   }
 
   return fieldEl;
@@ -138,10 +146,7 @@ export function addFieldValidation(fieldEl) {
 
 export function removeFieldValidation(fieldEl) {
   for (const inputEl of fieldEl.querySelectorAll('input, select, textarea')) {
-    if (inputEl.invalidEventListener) {
-      inputEl.removeEventListener('invalid', inputEl.invalidEventListener);
-      delete inputEl.invalidEventListener;
-    }
+    inputEl.removeEventListener('invalid', inputInvalidEventListener);
 
     inputEl.removeEventListener('input', inputCheckValidity);
     inputEl.removeEventListener('change', inputCheckValidity);
@@ -156,7 +161,10 @@ export function removeFieldValidation(fieldEl) {
       delete inputEl.originalReportValidity;
     }
 
-    inputEl.setupValidity && delete inputEl.setupValidity;
+    delete inputEl.setupValidity;
+
+    delete inputEl.fieldEl;
+    delete inputEl.errorEl;
   }
 
   return fieldEl;
