@@ -1,4 +1,4 @@
-function getBetterCustomValidityMessage(inputEl) {
+function getBetterCustomValidityMessage(fieldEl, inputEl) {
   if (inputEl.validity.customError) {
     return;
   }
@@ -55,7 +55,7 @@ function handleInvalid(fieldEl, inputEl, errorEl) {
     return;
   }
 
-  const message = getBetterCustomValidityMessage(inputEl);
+  const message = getBetterCustomValidityMessage(fieldEl, inputEl);
   message && inputEl.setCustomValidity(message);
 
   errorEl.textContent = inputEl.validationMessage;
