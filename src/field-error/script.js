@@ -3,31 +3,31 @@ function getBetterCustomValidityMessage(inputEl) {
     return;
   }
   if (inputEl.validity.badInput) {
-    return; // ADD CUSTOMIZATIONS
+    return; // CUSTOMIZE
   }
   if (inputEl.validity.patternMismatch) {
-    return; // ADD CUSTOMIZATIONS
+    return; // CUSTOMIZE
   }
   if (inputEl.validity.rangeOverflow) {
-    return; // ADD CUSTOMIZATIONS
+    return; // CUSTOMIZE
   }
   if (inputEl.validity.rangeUnderflow) {
-    return; // ADD CUSTOMIZATIONS
+    return; // CUSTOMIZE
   }
   if (inputEl.validity.stepMismatch) {
-    return; // ADD CUSTOMIZATIONS
+    return; // CUSTOMIZE
   }
   if (inputEl.validity.tooLong) {
-    return; // ADD CUSTOMIZATIONS
+    return; // CUSTOMIZE
   }
   if (inputEl.validity.tooShort) {
-    return; // ADD CUSTOMIZATIONS
+    return; // CUSTOMIZE
   }
   if (inputEl.validity.typeMismatch) {
-    return; // ADD CUSTOMIZATIONS
+    return; // CUSTOMIZE
   }
   if (inputEl.validity.valueMissing) {
-    return; // ADD CUSTOMIZATIONS
+    return; // CUSTOMIZE
   }
 }
 
