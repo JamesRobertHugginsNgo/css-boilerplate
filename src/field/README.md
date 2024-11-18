@@ -2,5 +2,5 @@
 
 ## Resources
 
-- https://getbootstrap.com
+- https://icons.getbootstrap.com
 - https://www.fffuel.co/eeencode/
