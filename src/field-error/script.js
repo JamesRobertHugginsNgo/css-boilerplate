@@ -1,7 +1,3 @@
-// ==
-// HELPER FUNCTIONS
-// ==
-
 function getBetterCustomValidityMessage(inputEl) {
   // if (inputEl.validity.customError) {
   //   return;
@@ -35,15 +31,6 @@ function getBetterCustomValidityMessage(inputEl) {
   // }
 }
 
-// function handleInvalid(fieldEl, inputEl, errorEl) {
-//   if (!inputEl.willValidate) {
-//     return;
-//   }
-
-//   errorEl.textContent = inputEl.validationMessage;
-//   !fieldEl.classList.contains('field-error') && fieldEl.classList.add('field-error');
-// }
-
 // ==
 // METHODS & EVENT LISTENER
 // ==
@@ -53,7 +40,7 @@ function inputSetupValidity() {
     return;
   }
 
-  this.fieldEl.classList.contains('field-error') && this.fieldEl.classList.remove('field-error');
+  this.fieldEl.classList.remove('field-error');
 
   if (this.fieldEl.customValidityValidations) {
     for (const getCustomValidityMessage of this.fieldEl.customValidityValidations) {
@@ -71,7 +58,7 @@ function inputSetupValidity() {
     return;
   }
 
-  this.validity.customError && this.setCustomValidity('');
+  this.setCustomValidity('');
 };
 
 function inputCheckValidity(...args) {
@@ -93,7 +80,7 @@ function inputInvalidEventListener(event) {
   }
 
   this.errorEl.textContent = this.validationMessage;
-  !this.fieldEl.classList.contains('field-error') && this.fieldEl.classList.add('field-error');
+  this.fieldEl.classList.add('field-error');
 };
 
 function formReportValidity(...args) {
@@ -110,7 +97,7 @@ function formReportValidity(...args) {
 
 function formResetEventListener(event) {
   for (const inputEl of this.elements) {
-    inputEl.fieldEl && inputEl.fieldEl.classList.contains('field-error') && inputEl.fieldEl.classList.remove('field-error');
+    inputEl.fieldEl && inputEl.fieldEl.classList.remove('field-error');
   }
 };
 
@@ -181,7 +168,7 @@ export function addFormValidation(formEl) {
   formEl.reportValidity = formReportValidity;
 
   formEl.hasNoValidate = formEl.hasAttribute('novalidate');
-  !formEl.hasNoValidate && formEl.setAttribute('novalidate', '');
+  formEl.setAttribute('novalidate', '');
 
   formEl.addEventListener('reset', formResetEventListener);
   formEl.addEventListener('submit', formSubmitEventListener);
@@ -202,7 +189,7 @@ export function removeFormValidation(formEl) {
   formEl.removeEventListener('submit', formSubmitEventListener);
 
   if (formEl.hasNoValidate !== undefined) {
-    !formEl.hasNoValidate && formEl.hasAttribute('novalidate') && formEl.removeAttribute('novalidate');
+    !formEl.hasNoValidate && formEl.removeAttribute('novalidate');
     delete formEl.hasNoValidate;
   }
 
