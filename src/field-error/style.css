@@ -1,5 +1,4 @@
-@import url(../field/styles/field-input.css);
-@import url(../field/styles/field-label.css);
+@import url(../field/style.css);
 
 .field-error-text {
   display: none;
