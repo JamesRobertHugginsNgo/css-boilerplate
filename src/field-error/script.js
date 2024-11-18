@@ -71,7 +71,7 @@ function handleInvalid(fieldEl, inputEl, errorEl) {
 }
 
 // ==
-// METHOD OVERRIDE
+// METHODS & EVENT LISTENER
 // ==
 
 function inputCheckValidity(...args) {
@@ -96,10 +96,6 @@ function formReportValidity(...args) {
   return isValid;
 };
 
-// ==
-// EVENT LISTENER
-// ==
-
 function formSubmitEventListener(event) {
   if (!this.reportValidity()) {
     event.preventDefault();
@@ -109,7 +105,7 @@ function formSubmitEventListener(event) {
 };
 
 // ==
-// ADD FIELD VALIDATION
+// EXPORTS
 // ==
 
 export function addFieldValidation(fieldEl) {
@@ -140,10 +136,6 @@ export function addFieldValidation(fieldEl) {
   return fieldEl;
 }
 
-// ==
-// REMOVE FIELD VALIDATION
-// ==
-
 export function removeFieldValidation(fieldEl) {
   for (const inputEl of fieldEl.querySelectorAll('input, select, textarea')) {
     if (inputEl.invalidEventListener) {
@@ -170,10 +162,6 @@ export function removeFieldValidation(fieldEl) {
   return fieldEl;
 }
 
-// ==
-// ADD FORM VALIDATION
-// ==
-
 export function addFormValidation(formEl) {
   formEl.originalReportValidity = formEl.originalReportValidity || formEl.reportValidity;
   formEl.reportValidity = formReportValidity;
@@ -189,10 +177,6 @@ export function addFormValidation(formEl) {
 
   return formEl;
 }
-
-// ==
-// REMOVE FORM VALIDATION
-// ==
 
 export function removeFormValidation(formEl) {
   for (const fieldEl of formEl.querySelectorAll('.field')) {
