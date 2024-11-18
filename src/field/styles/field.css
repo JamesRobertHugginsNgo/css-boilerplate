@@ -1,0 +1,10 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+fieldset.field {
+  border: 0;
+  padding: 0;
+}

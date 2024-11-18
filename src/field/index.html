@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="../page-width/style.css">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      margin: 0;
+    }
+
+    main {
+      margin-left: 1rem;
+      margin-right: 1rem;
+    }
+
+    fieldset {
+      margin-bottom: 1rem;
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+    <div class="page-width">
+      <p class="field">
+        <label for="text-id" class="field-label">Text <span>(optional)</span></label>
+        <span class="field-help-text">Help text</span>
+        <input name="text-id" type="text" id="text-id" class="field-input">
+        <span class="field-help-text">Help text</span>
+      </p>
+
+      <p class="field">
+        <label for="text-disabled-id" class="field-label">Text - Disabled <span>(optional)</span></label>
+        <span class="field-help-text">Help text</span>
+        <input disabled name="text-disabled-id" type="text" value="Text" id="text-disabled-id" class="field-input">
+        <span class="field-help-text">Help text</span>
+      </p>
+
+      <p class="field">
+        <label for="text-readonly-id" class="field-label">Text - Readonly <span>(optional)</span></label>
+        <span class="field-help-text">Help text</span>
+        <input readonly name="text-readonly-id" type="text" value="Text" id="text-readonly-id" class="field-input">
+        <span class="field-help-text">Help text</span>
+      </p>
+
+      <p class="field">
+        <label for="email-id" class="field-label">Email <span>(optional)</span></label>
+        <input name="email-id" type="email" id="email-id" class="field-input">
+      </p>
+
+      <p class="field">
+        <label for="number-id" class="field-label">Number <span>(optional)</span></label>
+        <input name="number-id" type="number" id="number-id" class="field-input">
+      </p>
+
+      <p class="field">
+        <label for="currency-id" class="field-label">Currency <span>(optional)</span></label>
+        <input name="currency-id" type="number" id="currency-id" class="field-input field-input-currency">
+      </p>
+
+      <p class="field">
+        <label for="search-id" class="field-label">Search <span>(optional)</span></label>
+        <input name="search-id" type="search" id="search-id" class="field-input">
+      </p>
+
+      <p class="field">
+        <label for="textarea-id" class="field-label">Textarea <span>(optional)</span></label>
+        <span class="field-help-text">Help text</span>
+        <textarea name="textarea-id" type="text" id="textarea-id" class="field-input"></textarea>
+        <span class="field-help-text">Help text</span>
+      </p>
+
+      <p class="field">
+        <label for="select-id" class="field-label">Select <span>(optional)</span></label>
+        <span class="field-help-text">Help text</span>
+        <select name="select-id" type="text" id="select-id" class="field-input">
+          <option value="">Select&hellip;</option>
+          <option value="Value 1">Value 1</option>
+          <option value="Value 2">Value 2</option>
+          <option value="Value 3">Value 3</option>
+        </select>
+        <span class="field-help-text">Help text</span>
+      </p>
+
+      <p class="field">
+        <label for="select-disabled-id" class="field-label">Select - Disabled <span>(optional)</span></label>
+        <span class="field-help-text">Help text</span>
+        <select disabled name="select-disabled-id" type="text" id="select-disabled-id" class="field-input">
+          <option value="">Select&hellip;</option>
+          <option value="Value 1">Value 1</option>
+          <option value="Value 2">Value 2</option>
+          <option value="Value 3">Value 3</option>
+        </select>
+        <span class="field-help-text">Help text</span>
+      </p>
+
+      <fieldset class="field">
+        <legend class="field-label">Checkbox <span>(optional)</span></legend>
+        <span class="field-help-text">Help text</span>
+        <div class="field-input">
+          <div class="field-input-row">
+            <input name="checkbox-1" type="checkbox" id="checkbox-1">
+            <label for="checkbox-1">Checkbox 1</label>
+          </div>
+          <div class="field-input-row">
+            <input name="checkbox-2" type="checkbox" id="checkbox-2">
+            <label for="checkbox-2">Checkbox 2</label>
+          </div>
+          <div class="field-input-row">
+            <input name="checkbox-3" type="checkbox" id="checkbox-3">
+            <label for="checkbox-3">Checkbox 3</label>
+          </div>
+        </div>
+        <span class="field-help-text">Help text</span>
+      </fieldset>
+
+      <fieldset class="field">
+        <legend class="field-label">Radio <span>(optional)</span></legend>
+        <span class="field-help-text">Help text</span>
+        <div class="field-input">
+          <div class="field-input-row">
+            <input name="radio" type="radio" id="radio-1">
+            <label for="radio-1">Radio 1</label>
+          </div>
+          <div class="field-input-row">
+            <input name="radio" type="radio" id="radio-2">
+            <label for="radio-2">Radio 2</label>
+          </div>
+          <div class="field-input-row">
+            <input name="radio" type="radio" id="radio-3">
+            <label for="radio-3">Radio 3</label>
+          </div>
+        </div>
+        <span class="field-help-text">Help text</span>
+      </fieldset>
+
+      <p>
+        <button type="button" class="field-button">Button</button>
+        <button disabled type="button" class="field-button">Button - Disabled</button>
+        <a href="#" class="field-button">Link</a>
+      </p>
+
+      <p class="field">
+        <label for="text-id" class="field-label">File <span>(optional)</span></label>
+        <span class="field-help-text">Help text</span>
+        <input name="file-id" type="file" id="file-id" class="field-file-input">
+        <span class="field-help-text">Help text</span>
+      </p>
+
+      <p class="field">
+        <label for="text-disabled-id" class="field-label">File - Disabled <span>(optional)</span></label>
+        <span class="field-help-text">Help text</span>
+        <input disabled name="text-disabled-id" type="file" id="text-disabled-id" class="field-file-input">
+        <span class="field-help-text">Help text</span>
+      </p>
+    </div>
+  </main>
+
+  <script src="field.js"></script>
+</body>
+
+</html>

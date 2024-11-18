@@ -1,0 +1,37 @@
+.field-file-input {
+  font-size: 0.875rem;
+  line-height: normal;
+
+  &::file-selector-button {
+    background-color: white;
+    border: 1px solid darkgrey;
+    border-radius: 0.25rem;
+    color: black;
+    cursor: pointer;
+    font-size: 0.875rem;
+    line-height: normal;
+    margin-right: 0.25rem;
+    padding: 0.5rem 1rem;
+  }
+
+  &::file-selector-button:hover {
+    background-color: #eeeeee;
+    color: black;
+  }
+
+  &::file-selector-button:active,
+  &::file-selector-button:visited {
+    background-color: #ffffff;
+    color: black;
+  }
+
+  &[disabled] {
+    color: #777777;
+
+    &::file-selector-button {
+      background-color: #eeeeee;
+      color: #777777;
+      cursor: not-allowed;
+    }
+  }
+}

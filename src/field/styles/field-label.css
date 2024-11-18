@@ -1,0 +1,12 @@
+.field-label {
+  font-weight: bold;
+
+  &>span {
+    font-weight: normal;
+  }
+}
+
+legend.field-label {
+  margin-bottom: 0;
+  padding: 0;
+}
