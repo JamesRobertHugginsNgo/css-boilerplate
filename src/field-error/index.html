@@ -119,12 +119,18 @@
     // 	alert('SUBMIT');
     // });
 
-    document.getElementById('text-id').customValidityValidation = (fieldEl, inputEl) => {
-      if (inputEl.value === '0') {
-        inputEl.setCustomValidity('Value must not be 0');
-        return;
+    document.getElementById('text-id').closest('.field').customValidityValidations = [
+      (fieldEl, inputEl) => {
+        if (inputEl.value === '0') {
+          return 'Value must not be 0';
+        }
+      },
+      (fieldEl, inputEl) => {
+        if (inputEl.value === 'ABC') {
+          return 'Value must not be ABC';
+        }
       }
-    }
+    ];
 
     document.getElementById('test-submit').addEventListener('click', () => {
       if (!formEl.reportValidity()) {

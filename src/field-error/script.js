@@ -66,8 +66,15 @@ function setupValidity(fieldEl, inputEl) {
   fieldEl.classList.contains('field-error') && fieldEl.classList.remove('field-error');
   inputEl.validity.customError && inputEl.setCustomValidity('');
 
-  fieldEl.customValidityValidation && fieldEl.customValidityValidation(fieldEl, inputEl);
-  inputEl.customValidityValidation && inputEl.customValidityValidation(fieldEl, inputEl);
+  if (fieldEl.customValidityValidations) {
+    for (const customValidityValidation of fieldEl.customValidityValidations) {
+      const message = customValidityValidation(fieldEl, inputEl);
+      if (message) {
+        inputEl.setCustomValidity(message);
+        return;
+      }
+    }
+  }
 };
 
 function handleInvalid(fieldEl, inputEl, errorEl) {
