@@ -2,115 +2,135 @@
 <html lang="en">
 
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Document</title>
-	<link rel="stylesheet" href="../page-width/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="../page-width/style.css">
   <link rel="stylesheet" href="style.css">
-	<style>
-		body {
-			margin: 0;
-		}
+  <style>
+    body {
+      margin: 0;
+    }
 
-		main {
-			margin-left: 1rem;
-			margin-right: 1rem;
-		}
+    main {
+      margin-left: 1rem;
+      margin-right: 1rem;
+    }
 
-		fieldset {
-			margin-bottom: 1rem;
-			margin-top: 1rem;
-		}
-	</style>
+    fieldset {
+      margin-bottom: 1rem;
+      margin-top: 1rem;
+    }
+  </style>
 </head>
 
 <body>
-	<main>
-		<div class="page-width">
-			<form action="thankyou.html" method="get" id="form-id">
-				<p class="field">
-					<label for="text-id" class="field-label">Text</label>
-					<span class="field-help-text">Help text</span>
-					<input name="text-id" required type="text" id="text-id" class="field-input">
-					<span class="field-help-text">Help text</span>
-					<span class="field-error-text"></span>
-				</p>
+  <main>
+    <div class="page-width">
+      <form action="thankyou.html" method="get" id="form-id">
+        <p class="field">
+          <label for="text-id" class="field-label">Text</label>
+          <span class="field-help-text" id="text-id-pre-help-text">Help text</span>
+          <input name="text-id" required type="text" id="text-id" class="field-input"
+            aria-describedby="text-id-pre-help-text text-id-post-help-text text-id-error-text">
+          <span class="field-help-text" id="text-id-post-help-text">Help text</span>
+          <span class="field-error-text" id="text-id-error-text"></span>
+        </p>
 
-				<p class="field">
-					<label for="number-id" class="field-label">Number</label>
-					<span class="field-help-text">Help text</span>
-					<input name="number-id" required type="number" id="number-id" class="field-input">
-					<span class="field-help-text">Help text</span>
-					<span class="field-error-text"></span>
-				</p>
+        <p class="field">
+          <label for="text-disabled-id" class="field-label">Text - Disabled</label>
+          <span class="field-help-text">Help text</span>
+          <input disabled name="text-disabled-id" required type="text" id="text-disabled-id" class="field-input">
+          <span class="field-help-text">Help text</span>
+          <span class="field-error-text"></span>
+        </p>
 
-				<p class="field">
-					<label for="email-id" class="field-label">Email</label>
-					<span class="field-help-text">Help text</span>
-					<input name="email-id" required type="email" id="email-id" class="field-input">
-					<span class="field-help-text">Help text</span>
-					<span class="field-error-text"></span>
-				</p>
+        <p class="field">
+          <label for="number-id" class="field-label">Number</label>
+          <span class="field-help-text">Help text</span>
+          <input name="number-id" required type="number" id="number-id" class="field-input">
+          <span class="field-help-text">Help text</span>
+          <span class="field-error-text"></span>
+        </p>
 
-				<p class="field">
-					<label for="url-id" class="field-label">URL <span>(optional)</span></label>
-					<span class="field-help-text">Help text</span>
-					<input name="url-id" type="url" id="url-id" class="field-input">
-					<span class="field-help-text">Help text</span>
-					<span class="field-error-text"></span>
-				</p>
+        <p class="field">
+          <label for="email-id" class="field-label">Email</label>
+          <span class="field-help-text">Help text</span>
+          <input name="email-id" required type="email" id="email-id" class="field-input">
+          <span class="field-help-text">Help text</span>
+          <span class="field-error-text"></span>
+        </p>
 
-				<fieldset class="field">
-					<legend class="field-label">Radio <span>(optional)</span></legend>
-					<span class="field-help-text">Help text</span>
-					<div class="field-input">
-						<div class="field-input-row">
-							<input name="radio-name" required type="radio" value="Radio 1" id="radio-1">
-							<label for="radio-1">Radio 1</label>
-						</div>
-						<div class="field-input-row">
-							<input name="radio-name" required type="radio" value="Radio 2" id="radio-2">
-							<label for="radio-2">Radio 2</label>
-						</div>
-						<div class="field-input-row">
-							<input name="radio-name" required type="radio" value="Radio 3" id="radio-3">
-							<label for="radio-3">Radio 3</label>
-						</div>
-					</div>
-					<span class="field-help-text">Help text</span>
-					<span class="field-error-text"></span>
-				</fieldset>
+        <p class="field">
+          <label for="url-id" class="field-label">URL <span>(optional)</span></label>
+          <span class="field-help-text">Help text</span>
+          <input name="url-id" type="url" id="url-id" class="field-input">
+          <span class="field-help-text">Help text</span>
+          <span class="field-error-text"></span>
+        </p>
 
-				<p>
-					<button type="button" class="field-button" id="test-submit">Test Submit</button>
-					<button class="field-button">Submit</button>
-				</p>
-			</form>
-		</div>
-	</main>
+        <fieldset class="field">
+          <legend class="field-label">Radio <span>(optional)</span></legend>
+          <span class="field-help-text">Help text</span>
+          <div class="field-input">
+            <div class="field-input-row">
+              <input name="radio-name" required type="radio" value="Radio 1" id="radio-1">
+              <label for="radio-1">Radio 1</label>
+            </div>
+            <div class="field-input-row">
+              <input name="radio-name" required type="radio" value="Radio 2" id="radio-2">
+              <label for="radio-2">Radio 2</label>
+            </div>
+            <div class="field-input-row">
+              <input name="radio-name" required type="radio" value="Radio 3" id="radio-3">
+              <label for="radio-3">Radio 3</label>
+            </div>
+          </div>
+          <span class="field-help-text">Help text</span>
+          <span class="field-error-text"></span>
+        </fieldset>
 
-	<script type="module">
-		import { addFormValidation } from './script.js';
-		const formEl = addFormValidation(document.getElementById('form-id'));
-		// formEl.addEventListener('submit', (event) => {
-		// 	event.preventDefault();
-		// 	alert('SUBMIT');
-		// });
+        <p class="field">
+          <label for="text-id" class="field-label">File</label>
+          <span class="field-help-text">Help text</span>
+          <input name="file-id" required type="file" id="file-id" class="field-file-input">
+          <span class="field-help-text">Help text</span>
+          <span class="field-error-text"></span>
+        </p>
 
-		document.getElementById('text-id').customValidityValidation = (fieldEl, inputEl) => {
-			if (inputEl.value === '0') {
-				inputEl.setCustomValidity('Value must not be 0');
-				return;
-			}
-		}
+        <p>
+          <button type="button" class="field-button" id="test-submit">Test Submit</button>
+          <button class="field-button">Submit</button>
+        </p>
+      </form>
+    </div>
+  </main>
 
-		document.getElementById('test-submit').addEventListener('click', () => {
-			if (!formEl.reportValidity()) {
-				return;
-			}
-			alert('TEST SUBMIT');
-		});
-	</script>
+  <script type="module">
+    import { addFormValidation } from './script.js';
+
+    const formEl = addFormValidation(document.getElementById('form-id'));
+
+    // UNCOMMENT WHEN PREVENTING DEFAULT FORM BEHAVIOR
+    // formEl.addEventListener('submit', (event) => {
+    // 	event.preventDefault();
+    // 	alert('SUBMIT');
+    // });
+
+    document.getElementById('text-id').customValidityValidation = (fieldEl, inputEl) => {
+      if (inputEl.value === '0') {
+        inputEl.setCustomValidity('Value must not be 0');
+        return;
+      }
+    }
+
+    document.getElementById('test-submit').addEventListener('click', () => {
+      if (!formEl.reportValidity()) {
+        return;
+      }
+      alert('TEST SUBMIT');
+    });
+  </script>
 </body>
 
 </html>
