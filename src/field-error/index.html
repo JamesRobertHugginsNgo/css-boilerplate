@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<link rel="stylesheet" href="../field/style.css">
+	<link rel="stylesheet" href="../page-width/style.css">
+  <link rel="stylesheet" href="style.css">
+	<style>
+		body {
+			margin: 0;
+		}
+
+		main {
+			margin-left: 1rem;
+			margin-right: 1rem;
+		}
+
+		fieldset {
+			margin-bottom: 1rem;
+			margin-top: 1rem;
+		}
+	</style>
+</head>
+
+<body>
+	<main>
+		<div class="page-width">
+			<form action="thankyou.html" method="get" id="form-id">
+				<p class="field">
+					<label for="text-id" class="field-label">Text</label>
+					<span class="field-help-text">Help text</span>
+					<input name="text-id" required type="text" id="text-id" class="field-input">
+					<span class="field-help-text">Help text</span>
+					<span class="field-error-text"></span>
+				</p>
+
+				<p class="field">
+					<label for="number-id" class="field-label">Number</label>
+					<span class="field-help-text">Help text</span>
+					<input name="number-id" required type="number" id="number-id" class="field-input">
+					<span class="field-help-text">Help text</span>
+					<span class="field-error-text"></span>
+				</p>
+
+				<p class="field">
+					<label for="email-id" class="field-label">Email</label>
+					<span class="field-help-text">Help text</span>
+					<input name="email-id" required type="email" id="email-id" class="field-input">
+					<span class="field-help-text">Help text</span>
+					<span class="field-error-text"></span>
+				</p>
+
+				<p class="field">
+					<label for="url-id" class="field-label">URL <span>(optional)</span></label>
+					<span class="field-help-text">Help text</span>
+					<input name="url-id" type="url" id="url-id" class="field-input">
+					<span class="field-help-text">Help text</span>
+					<span class="field-error-text"></span>
+				</p>
+
+				<fieldset class="field">
+					<legend class="field-label">Radio <span>(optional)</span></legend>
+					<span class="field-help-text">Help text</span>
+					<div class="field-input">
+						<div class="field-input-row">
+							<input name="radio" required type="radio" id="radio-1">
+							<label for="radio-1">Radio 1</label>
+						</div>
+						<div class="field-input-row">
+							<input name="radio" required type="radio" id="radio-2">
+							<label for="radio-2">Radio 2</label>
+						</div>
+						<div class="field-input-row">
+							<input name="radio" required type="radio" id="radio-3">
+							<label for="radio-3">Radio 3</label>
+						</div>
+					</div>
+					<span class="field-help-text">Help text</span>
+					<span class="field-error-text"></span>
+				</fieldset>
+
+				<p>
+					<button type="button" class="field-button" id="test-submit">Test Submit</button>
+					<button class="field-button">Submit</button>
+				</p>
+			</form>
+		</div>
+	</main>
+
+	<script type="module">
+		import { addFormValidation } from './script.js';
+		const formEl = addFormValidation(document.getElementById('form-id'));
+		// formEl.addEventListener('submit', (event) => {
+		// 	event.preventDefault();
+		// 	alert('SUBMIT');
+		// });
+
+		document.getElementById('text-id').customValidityValidation = (fieldEl, inputEl) => {
+			if (inputEl.value === '0') {
+				inputEl.setCustomValidity('Value must not be 0');
+				return;
+			}
+		}
+
+		document.getElementById('test-submit').addEventListener('click', () => {
+			if (!formEl.reportValidity()) {
+				return;
+			}
+			alert('TEST SUBMIT');
+		});
+	</script>
+</body>
+
+</html>

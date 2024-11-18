@@ -1,0 +1,19 @@
+@import url(../field/styles/field-input.css);
+@import url(../field/styles/field-label.css);
+
+.field-error-text {
+  display: none;
+}
+
+.field-error {
+
+  .field-error-text,
+  .field-label {
+    color: darkred;
+    display: block;
+  }
+
+  .field-input {
+    border-color: darkred;
+  }
+}
