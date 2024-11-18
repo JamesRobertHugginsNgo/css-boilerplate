@@ -48,15 +48,15 @@ function setupValidity(fieldEl, inputEl) {
       }
     }
   }
+
+  const message = getBetterCustomValidityMessage(fieldEl, inputEl);
+  message && inputEl.setCustomValidity(message);
 };
 
 function handleInvalid(fieldEl, inputEl, errorEl) {
   if (!inputEl.willValidate) {
     return;
   }
-
-  const message = getBetterCustomValidityMessage(fieldEl, inputEl);
-  message && inputEl.setCustomValidity(message);
 
   errorEl.textContent = inputEl.validationMessage;
   !fieldEl.classList.contains('field-error') && fieldEl.classList.add('field-error');
