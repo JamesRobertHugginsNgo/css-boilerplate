@@ -1,4 +1,4 @@
-.left-center-right-layout {
+.left-centre-right {
   display: flex;
   gap: 1rem;
   justify-content: space-between;
@@ -13,11 +13,11 @@
     }
 
     &:first-child {
-      justify-content: start;
+      justify-content: left;
     }
 
     &:last-child {
-      justify-content: end;
+      justify-content: right;
     }
   }
 }
