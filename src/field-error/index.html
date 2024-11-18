@@ -69,6 +69,19 @@
           <span class="field-error-text"></span>
         </p>
 
+        <p class="field">
+          <label for="select-id" class="field-label">Select</label>
+          <span class="field-help-text">Help text</span>
+          <select multiple name="select-id" required type="text" id="select-id" class="field-input">
+            <option value="">Select&hellip;</option>
+            <option value="Value 1">Value 1</option>
+            <option value="Value 2">Value 2</option>
+            <option value="Value 3">Value 3</option>
+          </select>
+          <span class="field-help-text">Help text</span>
+          <span class="field-error-text"></span>
+        </p>
+
         <fieldset class="field">
           <legend class="field-label">Radio</legend>
           <span class="field-help-text">Help text</span>
@@ -100,6 +113,27 @@
           <span class="field-error-text"></span>
         </p>
 
+        <fieldset class="field">
+          <legend class="field-label">Checkbox</legend>
+          <span class="field-help-text">Help text</span>
+          <div class="field-input">
+            <div class="field-input-row">
+              <input name="checkbox-name[]" type="checkbox" value="Checkbox 1" id="checkbox-1">
+              <label for="checkbox-1">Checkbox 1</label>
+            </div>
+            <div class="field-input-row">
+              <input name="checkbox-name[]" type="checkbox" value="Checkbox 2" id="checkbox-2">
+              <label for="checkbox-2">Checkbox 2</label>
+            </div>
+            <div class="field-input-row">
+              <input name="checkbox-name[]" type="checkbox" value="Checkbox 3" id="checkbox-3">
+              <label for="checkbox-3">Checkbox 3</label>
+            </div>
+          </div>
+          <span class="field-help-text">Help text</span>
+          <span class="field-error-text"></span>
+        </fieldset>
+
         <p>
           <button type="button" class="field-button" id="test-submit">Test Submit</button>
           <button type="reset" class="field-button">Reset</button>
@@ -121,14 +155,23 @@
     // });
 
     document.getElementById('text-id').fieldEl.customValidityValidations = [
-      (fieldEl, inputEl) => {
+      (inputEl) => {
         if (inputEl.value === '0') {
           return 'Value must not be 0';
         }
       },
-      (fieldEl, inputEl) => {
+      (inputEl) => {
         if (inputEl.value === 'ABC') {
           return 'Value must not be ABC';
+        }
+      }
+    ];
+
+    document.querySelector('[name="checkbox-name[]"]').fieldEl.customValidityValidations = [
+      (inputEl) => {
+        const checkedEls = [...inputEl.fieldEl.querySelectorAll('input')].filter((inputEl) => inputEl.checked);
+        if (checkedEls.length === 0) {
+          return 'Select at least one of these options'
         }
       }
     ];

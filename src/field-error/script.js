@@ -44,7 +44,7 @@ function inputSetupValidity() {
 
   if (this.fieldEl.customValidityValidations) {
     for (const getCustomValidityMessage of this.fieldEl.customValidityValidations) {
-      const message = getCustomValidityMessage(this.fieldEl, this);
+      const message = getCustomValidityMessage(this);
       if (message) {
         this.setCustomValidity(message);
         return;
@@ -58,7 +58,7 @@ function inputSetupValidity() {
     return;
   }
 
-  this.setCustomValidity('');
+  this.validity.customError && this.setCustomValidity('');
 };
 
 function inputCheckValidity(...args) {
@@ -129,7 +129,6 @@ export function addFieldValidation(fieldEl) {
     inputEl.reportValidity = inputReportValidity;
 
     inputEl.addEventListener('input', inputCheckValidity);
-    inputEl.addEventListener('change', inputCheckValidity);
 
     inputEl.addEventListener('invalid', inputInvalidEventListener);
   }
@@ -142,7 +141,6 @@ export function removeFieldValidation(fieldEl) {
     inputEl.removeEventListener('invalid', inputInvalidEventListener);
 
     inputEl.removeEventListener('input', inputCheckValidity);
-    inputEl.removeEventListener('change', inputCheckValidity);
 
     if (inputEl.originalCheckValidity) {
       inputEl.checkValidity = inputEl.originalCheckValidity;
