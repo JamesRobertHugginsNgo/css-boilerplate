@@ -48,7 +48,7 @@
         <p class="field">
           <label for="number-id" class="field-label">Number</label>
           <span class="field-help-text">Help text</span>
-          <input name="number-id" required type="number" id="number-id" class="field-input">
+          <input name="number-id" max="10" min="2" required step="2" type="number" id="number-id" class="field-input">
           <span class="field-help-text">Help text</span>
           <span class="field-error-text"></span>
         </p>
@@ -93,7 +93,9 @@
         <p class="field">
           <label for="text-id" class="field-label">File</label>
           <span class="field-help-text">Help text</span>
-          <input name="file-id" required type="file" id="file-id" class="field-file-input">
+          <span>
+            <input name="file-id" required type="file" id="file-id" class="field-file-input">
+          </span>
           <span class="field-help-text">Help text</span>
           <span class="field-error-text"></span>
         </p>

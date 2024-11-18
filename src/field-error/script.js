@@ -1,47 +1,59 @@
-// ADD CUSTOMIZATIONS
 function setBetterCustomValidity(inputEl) {
   if (inputEl.validity.badInput) {
-    inputEl.setCustomValidity('Not a valid value');
+    // ADD CUSTOMIZATIONS
+    // inputEl.setCustomValidity('Not a valid value');
     return;
   }
+
   if (inputEl.validity.patternMismatch) {
-    inputEl.setCustomValidity('Does not match a valid value');
+    // ADD CUSTOMIZATIONS
     return;
   }
+
   if (inputEl.validity.rangeOverflow) {
-    // TODO
+    // ADD CUSTOMIZATIONS
     return;
   }
+
   if (inputEl.validity.rangeUnderflow) {
-    // TODO
+    // ADD CUSTOMIZATIONS
     return;
   }
+
   if (inputEl.validity.stepMismatch) {
-    // TODO
+    // ADD CUSTOMIZATIONS
     return;
   }
+
   if (inputEl.validity.tooLong) {
-    // TODO
+    // ADD CUSTOMIZATIONS
     return;
   }
+
   if (inputEl.validity.tooShort) {
-    // TODO
+    // ADD CUSTOMIZATIONS
     return;
   }
+
   if (inputEl.validity.typeMismatch) {
     const type = inputEl.getAttribute('type');
     if (type === 'email') {
-      inputEl.setCustomValidity('Not a valid email value');
+      // ADD CUSTOMIZATIONS
       return;
     } else if (type === 'url') {
-      inputEl.setCustomValidity('Not a valid url value');
+      // ADD CUSTOMIZATIONS
       return;
     }
-    inputEl.setCustomValidity('Not a valid value');
+    // ADD CUSTOMIZATIONS
     return;
   }
+
   if (inputEl.validity.valueMissing) {
-    inputEl.setCustomValidity('Cannot be left empty');
+    if (inputEl.classList.contains('field-file-input')) {
+      // ADD CUSTOMIZATIONS
+      return;
+    }
+    // ADD CUSTOMIZATIONS
     return;
   }
 }
