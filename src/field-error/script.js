@@ -1,60 +1,33 @@
-function setBetterCustomValidity(inputEl) {
+function getBetterCustomValidityMessage(inputEl) {
+  if (inputEl.validity.customError) {
+    return;
+  }
   if (inputEl.validity.badInput) {
-    // ADD CUSTOMIZATIONS
-    // inputEl.setCustomValidity('Not a valid value');
-    return;
+    return; // ADD CUSTOMIZATIONS
   }
-
   if (inputEl.validity.patternMismatch) {
-    // ADD CUSTOMIZATIONS
-    return;
+    return; // ADD CUSTOMIZATIONS
   }
-
   if (inputEl.validity.rangeOverflow) {
-    // ADD CUSTOMIZATIONS
-    return;
+    return; // ADD CUSTOMIZATIONS
   }
-
   if (inputEl.validity.rangeUnderflow) {
-    // ADD CUSTOMIZATIONS
-    return;
+    return; // ADD CUSTOMIZATIONS
   }
-
   if (inputEl.validity.stepMismatch) {
-    // ADD CUSTOMIZATIONS
-    return;
+    return; // ADD CUSTOMIZATIONS
   }
-
   if (inputEl.validity.tooLong) {
-    // ADD CUSTOMIZATIONS
-    return;
+    return; // ADD CUSTOMIZATIONS
   }
-
   if (inputEl.validity.tooShort) {
-    // ADD CUSTOMIZATIONS
-    return;
+    return; // ADD CUSTOMIZATIONS
   }
-
   if (inputEl.validity.typeMismatch) {
-    const type = inputEl.getAttribute('type');
-    if (type === 'email') {
-      // ADD CUSTOMIZATIONS
-      return;
-    } else if (type === 'url') {
-      // ADD CUSTOMIZATIONS
-      return;
-    }
-    // ADD CUSTOMIZATIONS
-    return;
+    return; // ADD CUSTOMIZATIONS
   }
-
   if (inputEl.validity.valueMissing) {
-    if (inputEl.classList.contains('field-file-input')) {
-      // ADD CUSTOMIZATIONS
-      return;
-    }
-    // ADD CUSTOMIZATIONS
-    return;
+    return; // ADD CUSTOMIZATIONS
   }
 }
 
@@ -67,8 +40,8 @@ function setupValidity(fieldEl, inputEl) {
   inputEl.validity.customError && inputEl.setCustomValidity('');
 
   if (fieldEl.customValidityValidations) {
-    for (const customValidityValidation of fieldEl.customValidityValidations) {
-      const message = customValidityValidation(fieldEl, inputEl);
+    for (const getCustomValidityMessage of fieldEl.customValidityValidations) {
+      const message = getCustomValidityMessage(fieldEl, inputEl);
       if (message) {
         inputEl.setCustomValidity(message);
         return;
@@ -82,7 +55,9 @@ function handleInvalid(fieldEl, inputEl, errorEl) {
     return;
   }
 
-  setBetterCustomValidity(inputEl);
+  const message = getBetterCustomValidityMessage(inputEl);
+  message && inputEl.setCustomValidity(message);
+
   errorEl.textContent = inputEl.validationMessage;
   !fieldEl.classList.contains('field-error') && fieldEl.classList.add('field-error');
 }
