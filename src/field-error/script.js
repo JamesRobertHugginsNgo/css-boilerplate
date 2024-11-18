@@ -108,6 +108,12 @@ function formReportValidity(...args) {
   return isValid;
 };
 
+function formResetEventListener(event) {
+  for (const inputEl of this.elements) {
+    inputEl.fieldEl && inputEl.fieldEl.classList.contains('field-error') && inputEl.fieldEl.classList.remove('field-error');
+  }
+};
+
 function formSubmitEventListener(event) {
   if (!this.reportValidity()) {
     event.preventDefault();
@@ -177,6 +183,7 @@ export function addFormValidation(formEl) {
   formEl.hasNoValidate = formEl.hasAttribute('novalidate');
   !formEl.hasNoValidate && formEl.setAttribute('novalidate', '');
 
+  formEl.addEventListener('reset', formResetEventListener);
   formEl.addEventListener('submit', formSubmitEventListener);
 
   for (const fieldEl of formEl.querySelectorAll('.field')) {
@@ -191,6 +198,7 @@ export function removeFormValidation(formEl) {
     removeFieldValidation(fieldEl);
   }
 
+  formEl.removeEventListener('reset', formResetEventListener);
   formEl.removeEventListener('submit', formSubmitEventListener);
 
   if (formEl.hasNoValidate !== undefined) {

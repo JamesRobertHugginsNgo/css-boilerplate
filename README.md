@@ -1,8 +1,10 @@
 # CSS Boilerplate
 
-A set of ready-to-use styles for quick copying, pasting, and easy customization.
+A collection of pre-built styles designed for quick implementation, easy customization, and seamless integration.
 
-## Styles
+This boilerplate is ideal for those who prefer to create their own projects without starting from scratch. The goal is to eliminate redundant work while offering full flexibility for customization.
+
+## Available Styles
 
 - [Field](src/field/)
 - [Field Error](src/field-error/)

@@ -70,7 +70,7 @@
         </p>
 
         <fieldset class="field">
-          <legend class="field-label">Radio <span>(optional)</span></legend>
+          <legend class="field-label">Radio</legend>
           <span class="field-help-text">Help text</span>
           <div class="field-input">
             <div class="field-input-row">
@@ -102,6 +102,7 @@
 
         <p>
           <button type="button" class="field-button" id="test-submit">Test Submit</button>
+          <button type="reset" class="field-button">Reset</button>
           <button class="field-button">Submit</button>
         </p>
       </form>
@@ -119,7 +120,7 @@
     // 	alert('SUBMIT');
     // });
 
-    document.getElementById('text-id').closest('.field').customValidityValidations = [
+    document.getElementById('text-id').fieldEl.customValidityValidations = [
       (fieldEl, inputEl) => {
         if (inputEl.value === '0') {
           return 'Value must not be 0';
@@ -136,6 +137,13 @@
       if (!formEl.reportValidity()) {
         return;
       }
+
+      const formData = new FormData(formEl);
+      console.log(Object.fromEntries(formData));
+      for (const pair of formData.entries()) {
+        console.log(pair[0] + ": " + pair[1]);
+      }
+
       alert('TEST SUBMIT');
     });
   </script>
