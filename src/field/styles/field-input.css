@@ -11,9 +11,6 @@
 input.field-input,
 select.field-input,
 textarea.field-input {
-  box-sizing: border-box;
-  display: block;
-  width: 100%;
 
   &[disabled],
   &[readonly] {
