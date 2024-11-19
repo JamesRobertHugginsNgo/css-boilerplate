@@ -12,3 +12,4 @@ This boilerplate is ideal for those who prefer to create their own projects with
 - [Left Centre Right](src/left-centre-right/)
 - [Left Right](src/left-right/)
 - [Page Width](src/page-width/)
+- [Tab List](src/tab-list/)
