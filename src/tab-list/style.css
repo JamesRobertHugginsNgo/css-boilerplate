@@ -1,0 +1,43 @@
+.tab-list {
+  border-bottom: 1px solid darkgrey;
+  display: flex;
+  gap: 0.25rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+
+  &>* {
+    margin-bottom: -1px;
+  }
+
+  & .tab-item {
+    background-color: #eeeeee;
+    border-width: 1px;
+    border-style: solid;
+    border-color: lightgrey lightgrey darkgrey lightgrey;
+    border-start-end-radius: 0.25rem;
+    border-start-start-radius: 0.25rem;
+    box-sizing: border-box;
+    color: black;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: center;
+    padding: 0.5rem 1rem;
+
+    &:hover {
+      background-color: white;
+      color: black;
+    }
+
+    &.tab-active-item {
+      background-color: white;
+      border-color: darkgrey darkgrey white darkgrey;
+      color: black;
+    }
+  }
+}
+
+ol.tab-list,
+ul.tab-list {
+  list-style: none;
+}

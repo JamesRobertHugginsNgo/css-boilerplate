@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="../page-width/style.css">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      margin: 0;
+    }
+
+    main {
+      margin-left: 1rem;
+      margin-right: 1rem;
+    }
+
+    .tab-list {
+      &.tab-list-centred {
+        justify-content: center;
+      }
+
+      &.tab-list-right {
+        justify-content: end;
+      }
+
+      &.tab-list-wide {
+        &>* {
+          flex: 1;
+        }
+      }
+
+      & .tab-item {
+        text-align: center;
+        text-decoration: none;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+    <div class="page-width">
+      <ul class="tab-list">
+        <li>
+          <a href="#" class="tab-item tab-active-item">
+            <span>Tab Name</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="tab-item">
+            <span>Tab Name Tab Name Tab Name Tab Name</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="tab-item">
+            <span>Tab Name</span>
+          </a>
+        </li>
+      </ul>
+
+      <ul class="tab-list">
+        <li>
+          <a href="#" class="tab-item tab-active-item">
+            <span>Tab Name</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="tab-item">
+            <span>Tab<br>Name</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="tab-item">
+            <span>Tab Name</span>
+          </a>
+        </li>
+      </ul>
+
+      <ul class="tab-list tab-list-centred">
+        <li>
+          <a href="#" class="tab-item tab-active-item">
+            <span>Tab Name</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="tab-item">
+            <span>Tab<br>Name</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="tab-item">
+            <span>Tab Name</span>
+          </a>
+        </li>
+      </ul>
+
+      <ul class="tab-list tab-list-right">
+        <li>
+          <a href="#" class="tab-item tab-active-item">
+            <span>Tab Name</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="tab-item">
+            <span>Tab<br>Name</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="tab-item">
+            <span>Tab Name</span>
+          </a>
+        </li>
+      </ul>
+
+      <ul class="tab-list tab-list-wide">
+        <li>
+          <a href="#" class="tab-item tab-active-item">
+            <span>Tab Name</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="tab-item">
+            <span>Tab<br>Name</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="tab-item">
+            <span>Tab Name</span>
+          </a>
+        </li>
+      </ul>
+
+      <ul class="tab-list">
+        <li>
+          <a href="#" class="tab-item tab-active-item">
+            <span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-tree-fill"
+                viewBox="0 0 16 16">
+                <path
+                  d="M8.416.223a.5.5 0 0 0-.832 0l-3 4.5A.5.5 0 0 0 5 5.5h.098L3.076 8.735A.5.5 0 0 0 3.5 9.5h.191l-1.638 3.276a.5.5 0 0 0 .447.724H7V16h2v-2.5h4.5a.5.5 0 0 0 .447-.724L12.31 9.5h.191a.5.5 0 0 0 .424-.765L10.902 5.5H11a.5.5 0 0 0 .416-.777z" />
+              </svg>
+            </span>
+            <span>Tab Name</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="tab-item">
+            <span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-tree-fill"
+                viewBox="0 0 16 16">
+                <path
+                  d="M8.416.223a.5.5 0 0 0-.832 0l-3 4.5A.5.5 0 0 0 5 5.5h.098L3.076 8.735A.5.5 0 0 0 3.5 9.5h.191l-1.638 3.276a.5.5 0 0 0 .447.724H7V16h2v-2.5h4.5a.5.5 0 0 0 .447-.724L12.31 9.5h.191a.5.5 0 0 0 .424-.765L10.902 5.5H11a.5.5 0 0 0 .416-.777z" />
+              </svg>
+            </span>
+            <span>Tab Name</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="tab-item">
+            <span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-tree-fill"
+                viewBox="0 0 16 16">
+                <path
+                  d="M8.416.223a.5.5 0 0 0-.832 0l-3 4.5A.5.5 0 0 0 5 5.5h.098L3.076 8.735A.5.5 0 0 0 3.5 9.5h.191l-1.638 3.276a.5.5 0 0 0 .447.724H7V16h2v-2.5h4.5a.5.5 0 0 0 .447-.724L12.31 9.5h.191a.5.5 0 0 0 .424-.765L10.902 5.5H11a.5.5 0 0 0 .416-.777z" />
+              </svg>
+            </span>
+            <span>Tab Name</span>
+          </a>
+        </li>
+      </ul>
+
+      <ul class="tab-list tab-list-wide">
+        <li>
+          <a href="#" class="tab-item tab-active-item">
+            <span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-tree-fill"
+                viewBox="0 0 16 16">
+                <path
+                  d="M8.416.223a.5.5 0 0 0-.832 0l-3 4.5A.5.5 0 0 0 5 5.5h.098L3.076 8.735A.5.5 0 0 0 3.5 9.5h.191l-1.638 3.276a.5.5 0 0 0 .447.724H7V16h2v-2.5h4.5a.5.5 0 0 0 .447-.724L12.31 9.5h.191a.5.5 0 0 0 .424-.765L10.902 5.5H11a.5.5 0 0 0 .416-.777z" />
+              </svg>
+            </span>
+            <span>Tab Name</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="tab-item">
+            <span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-tree-fill"
+                viewBox="0 0 16 16">
+                <path
+                  d="M8.416.223a.5.5 0 0 0-.832 0l-3 4.5A.5.5 0 0 0 5 5.5h.098L3.076 8.735A.5.5 0 0 0 3.5 9.5h.191l-1.638 3.276a.5.5 0 0 0 .447.724H7V16h2v-2.5h4.5a.5.5 0 0 0 .447-.724L12.31 9.5h.191a.5.5 0 0 0 .424-.765L10.902 5.5H11a.5.5 0 0 0 .416-.777z" />
+              </svg>
+            </span>
+            <span>Tab Name</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="tab-item">
+            <span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-tree-fill"
+                viewBox="0 0 16 16">
+                <path
+                  d="M8.416.223a.5.5 0 0 0-.832 0l-3 4.5A.5.5 0 0 0 5 5.5h.098L3.076 8.735A.5.5 0 0 0 3.5 9.5h.191l-1.638 3.276a.5.5 0 0 0 .447.724H7V16h2v-2.5h4.5a.5.5 0 0 0 .447-.724L12.31 9.5h.191a.5.5 0 0 0 .424-.765L10.902 5.5H11a.5.5 0 0 0 .416-.777z" />
+              </svg>
+            </span>
+            <span>Tab Name</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </main>
+</body>
+
+</html>
