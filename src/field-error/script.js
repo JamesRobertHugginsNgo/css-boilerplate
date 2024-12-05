@@ -1,4 +1,4 @@
-const inputElMap = new Map(), formElMap = new Map();
+const inputElMap = new Map(), formElMap = new Map(); // Stores element metadata
 
 function getBetterCustomValidityMessage(inputEl) {
   // if (inputEl.validity.customError) {
@@ -39,7 +39,6 @@ function setupInputValidity(inputEl) {
   }
 
   const { fieldEl } = inputElMap.get(inputEl);
-
   fieldEl.classList.remove('field-error');
 
   if (fieldEl.customValidityValidations) {
@@ -75,6 +74,26 @@ function inputReportValidity(...args) {
   return this.constructor.prototype.reportValidity.call(this, ...args);
 };
 
+function formReportValidity(...args) {
+  for (const inputEl of this.elements) {
+    inputElMap.has(inputEl) && setupInputValidity(inputEl);
+  }
+
+  const isValid = this.constructor.prototype.reportValidity.call(this, ...args);
+
+  // UNCOMMENT WHEN PREVENTING BROWSER ERROR MESSAGE POP UP ON SUBMIT
+  // THIS RESTORE FOCUS FUNCTIONALITY
+  // if (!isValid) {
+  //   this.querySelector('.field-error input, .field-error select, .field-error textarea').focus();
+  // }
+
+  return isValid;
+};
+
+// ==
+// EVENT LISTENERS
+// ==
+
 function inputInvalidEventListener(event) {
   // UNCOMMENT WHEN PREVENTING BROWSER ERROR MESSAGE POP UP ON SUBMIT
   // THIS PREVENTS THE POPUP
@@ -88,23 +107,6 @@ function inputInvalidEventListener(event) {
   errorEl.textContent = this.validationMessage;
   fieldEl.classList.add('field-error');
 };
-
-function formReportValidity(...args) {
-  for (const inputEl of this.elements) {
-    inputElMap.has(inputEl) && setupInputValidity(inputEl);
-  }
-  const isValid = this.constructor.prototype.reportValidity.call(this, ...args);
-  // UNCOMMENT WHEN PREVENTING BROWSER ERROR MESSAGE POP UP ON SUBMIT
-  // THIS RESTORE FOCUS FUNCTIONALITY
-  // if (!isValid) {
-  //   this.querySelector('.field-error input, .field-error select, .field-error textarea').focus();
-  // }
-  return isValid;
-};
-
-// ==
-// EVENT LISTENERS
-// ==
 
 function formResetEventListener(event) {
   for (const inputEl of this.elements) {
