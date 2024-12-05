@@ -1,8 +1,6 @@
 # CSS Boilerplate
 
-A collection of pre-built styles designed for quick implementation, easy customization, and seamless integration.
-
-This boilerplate is ideal for those who prefer to create their own projects without starting from scratch. The goal is to eliminate redundant work while offering full flexibility for customization.
+A collection of starter styles for quick implementation, and easy customization.
 
 ## Available Styles
 

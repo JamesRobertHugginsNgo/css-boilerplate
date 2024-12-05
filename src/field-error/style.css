@@ -1,19 +1,30 @@
 @import url(../field/style.css);
 
-.field-error-text {
-  display: none;
-}
-
 .field-error {
 
-  .field-error-text,
-  .field-file-input,
-  .field-label {
+  &>label,
+  &>legend {
     color: darkred;
-    display: block;
   }
 
-  .field-input {
+  & .field-file-input {
+    color: darkred;
+
+    &::file-selector-button {
+      border-color: darkred;
+    }
+  }
+
+  & .field-input {
     border-color: darkred;
+  }
+}
+
+.field-error-text {
+  color: darkred;
+  display: none;
+
+  .field-error & {
+    display: block;
   }
 }

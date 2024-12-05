@@ -1,6 +1,8 @@
+const inputElMap = new Map(), formElMap = new Map();
+
 function getBetterCustomValidityMessage(inputEl) {
   // if (inputEl.validity.customError) {
-  //   return;
+  //   return; // CUSTOMIZE
   // }
   // if (inputEl.validity.badInput) {
   //   return; // CUSTOMIZE
@@ -31,73 +33,83 @@ function getBetterCustomValidityMessage(inputEl) {
   // }
 }
 
-// ==
-// METHODS & EVENT LISTENER
-// ==
-
-function inputSetupValidity() {
-  if (!this.willValidate) {
+function setupInputValidity(inputEl) {
+  if (!inputEl.willValidate) {
     return;
   }
 
-  this.fieldEl.classList.remove('field-error');
+  const { fieldEl } = inputElMap.get(inputEl);
 
-  if (this.fieldEl.customValidityValidations) {
-    for (const getCustomValidityMessage of this.fieldEl.customValidityValidations) {
-      const message = getCustomValidityMessage(this);
+  fieldEl.classList.remove('field-error');
+
+  if (fieldEl.customValidityValidations) {
+    for (const getCustomValidityMessage of fieldEl.customValidityValidations) {
+      const message = getCustomValidityMessage(inputEl);
       if (message) {
-        this.setCustomValidity(message);
+        inputEl.setCustomValidity(message);
         return;
       }
     }
   }
 
-  const message = getBetterCustomValidityMessage(this);
+  const message = getBetterCustomValidityMessage(inputEl);
   if (message) {
-    this.setCustomValidity(message);
+    inputEl.setCustomValidity(message);
     return;
   }
 
-  this.validity.customError && this.setCustomValidity('');
+  inputEl.validity.customError && inputEl.setCustomValidity('');
 };
 
+// ==
+// METHOD OVERRIDES
+// ==
+
 function inputCheckValidity(...args) {
-  this.setupValidity();
-  return this.originalCheckValidity(...args);
+  setupInputValidity(this);
+  return this.constructor.prototype.checkValidity.call(this, ...args);
 }
 
 function inputReportValidity(...args) {
-  this.setupValidity();
-  return this.originalReportValidity(...args);
+  setupInputValidity(this);
+  return this.constructor.prototype.reportValidity.call(this, ...args);
 };
 
 function inputInvalidEventListener(event) {
   // UNCOMMENT WHEN PREVENTING BROWSER ERROR MESSAGE POP UP ON SUBMIT
+  // THIS PREVENTS THE POPUP
   // event.preventDefault();
 
   if (!this.willValidate) {
     return;
   }
 
-  this.errorEl.textContent = this.validationMessage;
-  this.fieldEl.classList.add('field-error');
+  const { errorEl, fieldEl } = inputElMap.get(this);
+  errorEl.textContent = this.validationMessage;
+  fieldEl.classList.add('field-error');
 };
 
 function formReportValidity(...args) {
   for (const inputEl of this.elements) {
-    inputEl.setupValidity && inputEl.setupValidity();
+    inputElMap.has(inputEl) && setupInputValidity(inputEl);
   }
-  const isValid = this.originalReportValidity(...args);
-  if (!isValid) {
-    // UNCOMMENT WHEN PREVENTING BROWSER ERROR MESSAGE POP UP ON SUBMIT
-    // this.querySelector('.field-error input, .field-error select, .field-error textarea').focus();
-  }
+  const isValid = this.constructor.prototype.reportValidity.call(this, ...args);
+  // UNCOMMENT WHEN PREVENTING BROWSER ERROR MESSAGE POP UP ON SUBMIT
+  // THIS RESTORE FOCUS FUNCTIONALITY
+  // if (!isValid) {
+  //   this.querySelector('.field-error input, .field-error select, .field-error textarea').focus();
+  // }
   return isValid;
 };
 
+// ==
+// EVENT LISTENERS
+// ==
+
 function formResetEventListener(event) {
   for (const inputEl of this.elements) {
-    inputEl.fieldEl && inputEl.fieldEl.classList.remove('field-error');
+    const { fieldEl } = inputElMap.get(inputEl) || {};
+    fieldEl && fieldEl.classList.remove('field-error');
   }
 };
 
@@ -117,19 +129,12 @@ export function addFieldValidation(fieldEl) {
   const errorEl = fieldEl.querySelector('.field-error-text');
 
   for (const inputEl of fieldEl.querySelectorAll('input, select, textarea')) {
-    inputEl.fieldEl = fieldEl;
-    inputEl.errorEl = errorEl;
+    inputElMap.set(inputEl, { errorEl, fieldEl });
 
-    inputEl.setupValidity = inputSetupValidity;
-
-    inputEl.originalCheckValidity = inputEl.originalCheckValidity || inputEl.checkValidity;
     inputEl.checkValidity = inputCheckValidity;
-
-    inputEl.originalReportValidity = inputEl.originalReportValidity || inputEl.reportValidity;
     inputEl.reportValidity = inputReportValidity;
 
     inputEl.addEventListener('input', inputCheckValidity);
-
     inputEl.addEventListener('invalid', inputInvalidEventListener);
   }
 
@@ -138,34 +143,24 @@ export function addFieldValidation(fieldEl) {
 
 export function removeFieldValidation(fieldEl) {
   for (const inputEl of fieldEl.querySelectorAll('input, select, textarea')) {
+    inputEl.removeEventListener('input', inputCheckValidity);
     inputEl.removeEventListener('invalid', inputInvalidEventListener);
 
-    inputEl.removeEventListener('input', inputCheckValidity);
+    inputEl.checkValidity = inputEl.constructor.prototype.checkValidity;
+    inputEl.reportValidity = inputEl.constructor.prototype.reportValidity;
 
-    if (inputEl.originalCheckValidity) {
-      inputEl.checkValidity = inputEl.originalCheckValidity;
-      delete inputEl.originalCheckValidity;
-    }
-
-    if (inputEl.originalReportValidity) {
-      inputEl.reportValidity = inputEl.originalReportValidity;
-      delete inputEl.originalReportValidity;
-    }
-
-    delete inputEl.setupValidity;
-
-    delete inputEl.fieldEl;
-    delete inputEl.errorEl;
+    inputElMap.delete(inputEl);
   }
 
   return fieldEl;
 }
 
 export function addFormValidation(formEl) {
-  formEl.originalReportValidity = formEl.originalReportValidity || formEl.reportValidity;
-  formEl.reportValidity = formReportValidity;
+  formElMap.set(formEl, {
+    hasAttributeNoValidate: formEl.hasAttribute('novalidate')
+  });
 
-  formEl.hasNoValidate = formEl.hasAttribute('novalidate');
+  formEl.reportValidity = formReportValidity;
   formEl.setAttribute('novalidate', '');
 
   formEl.addEventListener('reset', formResetEventListener);
@@ -186,15 +181,11 @@ export function removeFormValidation(formEl) {
   formEl.removeEventListener('reset', formResetEventListener);
   formEl.removeEventListener('submit', formSubmitEventListener);
 
-  if (formEl.hasNoValidate !== undefined) {
-    !formEl.hasNoValidate && formEl.removeAttribute('novalidate');
-    delete formEl.hasNoValidate;
-  }
+  const { hasAttributeNoValidate } = formElMap.get(formEl) || {};
+  formEl.reportValidity = formEl.constructor.prototype.reportValidity;
+  hasAttributeNoValidate === false && formEl.removeAttribute('novalidate');
 
-  if (formEl.originalReportValidity) {
-    formEl.reportValidity = formEl.originalReportValidity;
-    delete formEl.originalReportValidity;
-  }
+  formElMap.delete(formEl);
 
   return formEl;
 }

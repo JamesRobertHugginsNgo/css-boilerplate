@@ -29,7 +29,7 @@
     <div class="page-width">
       <form action="thankyou.html" method="get" id="form-id">
         <p class="field">
-          <label for="text-id" class="field-label">Text</label>
+          <label for="text-id">Text</label>
           <span class="field-help-text" id="text-id-pre-help-text">Help text</span>
           <input name="text-id" required type="text" id="text-id" class="field-input"
             aria-describedby="text-id-pre-help-text text-id-post-help-text text-id-error-text">
@@ -38,7 +38,7 @@
         </p>
 
         <p class="field">
-          <label for="text-disabled-id" class="field-label">Text - Disabled</label>
+          <label for="text-disabled-id">Text - Disabled</label>
           <span class="field-help-text">Help text</span>
           <input disabled name="text-disabled-id" required type="text" id="text-disabled-id" class="field-input">
           <span class="field-help-text">Help text</span>
@@ -46,7 +46,7 @@
         </p>
 
         <p class="field">
-          <label for="number-id" class="field-label">Number</label>
+          <label for="number-id">Number</label>
           <span class="field-help-text">Help text</span>
           <input name="number-id" max="10" min="2" required step="2" type="number" id="number-id" class="field-input">
           <span class="field-help-text">Help text</span>
@@ -54,7 +54,7 @@
         </p>
 
         <p class="field">
-          <label for="email-id" class="field-label">Email</label>
+          <label for="email-id">Email</label>
           <span class="field-help-text">Help text</span>
           <input name="email-id" required type="email" id="email-id" class="field-input">
           <span class="field-help-text">Help text</span>
@@ -62,7 +62,7 @@
         </p>
 
         <p class="field">
-          <label for="url-id" class="field-label">URL <span>(optional)</span></label>
+          <label for="url-id">URL <span>(optional)</span></label>
           <span class="field-help-text">Help text</span>
           <input name="url-id" type="url" id="url-id" class="field-input">
           <span class="field-help-text">Help text</span>
@@ -70,7 +70,7 @@
         </p>
 
         <p class="field">
-          <label for="select-id" class="field-label">Select</label>
+          <label for="select-id">Select</label>
           <span class="field-help-text">Help text</span>
           <select name="select-id" required type="text" id="select-id" class="field-input">
             <option value="">Select&hellip;</option>
@@ -83,7 +83,7 @@
         </p>
 
         <fieldset class="field">
-          <legend class="field-label">Radio</legend>
+          <legend>Radio</legend>
           <span class="field-help-text">Help text</span>
           <div class="field-input">
             <div class="field-input-row">
@@ -104,7 +104,7 @@
         </fieldset>
 
         <p class="field">
-          <label for="text-id" class="field-label">File</label>
+          <label for="text-id">File</label>
           <span class="field-help-text">Help text</span>
           <span>
             <input name="file-id" required type="file" id="file-id" class="field-file-input">
@@ -114,7 +114,7 @@
         </p>
 
         <fieldset class="field">
-          <legend class="field-label">Checkbox</legend>
+          <legend>Checkbox</legend>
           <span class="field-help-text">Help text</span>
           <div class="field-input">
             <div class="field-input-row">
@@ -154,7 +154,7 @@
     // 	alert('SUBMIT');
     // });
 
-    document.getElementById('text-id').fieldEl.customValidityValidations = [
+    document.getElementById('text-id').closest('.field').customValidityValidations = [
       (inputEl) => {
         if (inputEl.value === '0') {
           return 'Value must not be 0';
@@ -167,9 +167,9 @@
       }
     ];
 
-    document.querySelector('[name="checkbox-name[]"]').fieldEl.customValidityValidations = [
+    document.querySelector('[name="checkbox-name[]"]').closest('.field').customValidityValidations = [
       (inputEl) => {
-        const checkedEls = [...inputEl.fieldEl.querySelectorAll('input')].filter((inputEl) => inputEl.checked);
+        const checkedEls = [...inputEl.closest('.field').querySelectorAll('input')].filter((inputEl) => inputEl.checked);
         if (checkedEls.length === 0) {
           return 'Select at least one of these options'
         }

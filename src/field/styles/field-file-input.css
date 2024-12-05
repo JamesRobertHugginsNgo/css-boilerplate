@@ -1,4 +1,6 @@
 .field-file-input {
+  background-color: white;
+  color: black;
   font-size: 0.875rem;
   line-height: normal;
 
@@ -24,14 +26,14 @@
     background-color: #ffffff;
     color: black;
   }
+}
 
-  &[disabled] {
+.field-file-input[disabled] {
+  color: #777777;
+
+  &::file-selector-button {
+    background-color: #eeeeee;
     color: #777777;
-
-    &::file-selector-button {
-      background-color: #eeeeee;
-      color: #777777;
-      cursor: not-allowed;
-    }
+    cursor: not-allowed;
   }
 }
