@@ -48,6 +48,22 @@
         <span class="field-help-text">Help text</span>
       </p>
 
+      <p class="field field-error">
+        <label for="text-error-id">Text - Error <span>(optional)</span></label>
+        <span class="field-help-text">Help text</span>
+        <input name="text-error-id" type="text" id="text-error-id" class="field-input">
+        <span class="field-help-text">Help text</span>
+        <span class="field-error-text">Error Message</span>
+      </p>
+
+      <p class="field">
+        <label for="text-noerror-id">Text - No Error <span>(optional)</span></label>
+        <span class="field-help-text">Help text</span>
+        <input name="text-noerror-id" type="text" id="text-noerror-id" class="field-input">
+        <span class="field-help-text">Help text</span>
+        <span class="field-error-text">Error Message</span>
+      </p>
+
       <p class="field">
         <label for="email-id">Email <span>(optional)</span></label>
         <input name="email-id" type="email" id="email-id" class="field-input">
@@ -119,6 +135,48 @@
         <span class="field-help-text">Help text</span>
       </fieldset>
 
+      <fieldset class="field field-error">
+        <legend>Checkbox - Error <span>(optional)</span></legend>
+        <span class="field-help-text">Help text</span>
+        <div class="field-input">
+          <div class="field-input-row">
+            <input name="checkbox-error-1" type="checkbox" id="checkbox-error-1">
+            <label for="checkbox-error-1">Checkbox 1</label>
+          </div>
+          <div class="field-input-row">
+            <input name="checkbox-error-2" type="checkbox" id="checkbox-error-2">
+            <label for="checkbox-error-2">Checkbox 2</label>
+          </div>
+          <div class="field-input-row">
+            <input name="checkbox-error-3" type="checkbox" id="checkbox-error-3">
+            <label for="checkbox-error-3">Checkbox 3</label>
+          </div>
+        </div>
+        <span class="field-help-text">Help text</span>
+        <span class="field-error-text">Error Message</span>
+      </fieldset>
+
+      <fieldset class="field">
+        <legend>Checkbox - No Error <span>(optional)</span></legend>
+        <span class="field-help-text">Help text</span>
+        <div class="field-input">
+          <div class="field-input-row">
+            <input name="checkbox-noerror-1" type="checkbox" id="checkbox-noerror-1">
+            <label for="checkbox-noerror-1">Checkbox 1</label>
+          </div>
+          <div class="field-input-row">
+            <input name="checkbox-noerror-2" type="checkbox" id="checkbox-noerror-2">
+            <label for="checkbox-noerror-2">Checkbox 2</label>
+          </div>
+          <div class="field-input-row">
+            <input name="checkbox-noerror-3" type="checkbox" id="checkbox-noerror-3">
+            <label for="checkbox-noerror-3">Checkbox 3</label>
+          </div>
+        </div>
+        <span class="field-help-text">Help text</span>
+        <span class="field-error-text">Error Message</span>
+      </fieldset>
+
       <fieldset class="field">
         <legend>Radio <span>(optional)</span></legend>
         <span class="field-help-text">Help text</span>
@@ -146,7 +204,7 @@
       </p>
 
       <p class="field">
-        <label for="text-id">File <span>(optional)</span></label>
+        <label for="file-id">File <span>(optional)</span></label>
         <span class="field-help-text">Help text</span>
         <span>
           <input name="file-id" type="file" id="file-id" class="field-file-input">
@@ -155,15 +213,35 @@
       </p>
 
       <p class="field">
-        <label for="text-disabled-id">File - Disabled <span>(optional)</span></label>
+        <label for="file-disabled-id">File - Disabled <span>(optional)</span></label>
         <span class="field-help-text">Help text</span>
-        <input disabled name="text-disabled-id" type="file" id="text-disabled-id" class="field-file-input">
+        <span>
+          <input disabled name="file-disabled-id" type="file" id="text-disabled-id" class="field-file-input">
+        </span>
         <span class="field-help-text">Help text</span>
+      </p>
+
+      <p class="field field-error">
+        <label for="file-error-id">File - Error <span>(optional)</span></label>
+        <span class="field-help-text">Help text</span>
+        <span>
+          <input name="file-error-id" type="file" id="file-error-id" class="field-file-input">
+        </span>
+        <span class="field-help-text">Help text</span>
+        <span class="field-error-text">Error Message</span>
+      </p>
+
+      <p class="field">
+        <label for="file-noerror-id">File - No Error <span>(optional)</span></label>
+        <span class="field-help-text">Help text</span>
+        <span>
+          <input name="file-noerror" type="file" id="file-noerror" class="field-file-input">
+        </span>
+        <span class="field-help-text">Help text</span>
+        <span class="field-error-text">Error Message</span>
       </p>
     </div>
   </main>
-
-  <script src="field.js"></script>
 </body>
 
 </html>

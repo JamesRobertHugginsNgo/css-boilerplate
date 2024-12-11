@@ -28,6 +28,14 @@
   }
 }
 
+.field-error .field-file-input {
+  color: darkred;
+
+  &::file-selector-button {
+    border-color: darkred;
+  }
+}
+
 .field-file-input[disabled] {
   color: #777777;
 

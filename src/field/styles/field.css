@@ -26,4 +26,21 @@
     border: 0;
     padding: 0;
   }
+
+  & .field-error-text {
+    display: none;
+  }
+
+  &.field-error {
+
+    &>label,
+    &>legend {
+      color: darkred;
+    }
+
+    & .field-error-text {
+      color: darkred;
+      display: block;
+    }
+  }
 }

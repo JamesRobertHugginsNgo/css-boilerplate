@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
   <link rel="stylesheet" href="../page-width/style.css">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="../field/style.css">
   <style>
     body {
       margin: 0;
@@ -144,9 +144,10 @@
   </main>
 
   <script type="module">
-    import { addFormValidation } from './script.js';
+    import addFormValidation from './script.js';
 
-    const formEl = addFormValidation(document.getElementById('form-id'));
+    const formEl = document.getElementById('form-id');
+    addFormValidation(formEl);
 
     // UNCOMMENT WHEN PREVENTING DEFAULT FORM BEHAVIOR
     // formEl.addEventListener('submit', (event) => {
@@ -154,7 +155,7 @@
     // 	alert('SUBMIT');
     // });
 
-    document.getElementById('text-id').closest('.field').customValidityValidations = [
+    document.getElementById('text-id').formValidation.validators = [
       (inputEl) => {
         if (inputEl.value === '0') {
           return 'Value must not be 0';
@@ -167,17 +168,19 @@
       }
     ];
 
-    document.querySelector('[name="checkbox-name[]"]').closest('.field').customValidityValidations = [
-      (inputEl) => {
-        const checkedEls = [...inputEl.closest('.field').querySelectorAll('input')].filter((inputEl) => inputEl.checked);
-        if (checkedEls.length === 0) {
-          return 'Select at least one of these options'
+    for (const checkNameEl of document.querySelectorAll('[name="checkbox-name[]"]')) {
+      checkNameEl.formValidation.validators = [
+        (inputEl) => {
+          if ([...inputEl.closest('.field').elements].filter((inputEl) => inputEl.checked).length === 0) {
+            return 'Select at least one of these options'
+          }
         }
-      }
-    ];
+      ];
+    }
 
     document.getElementById('test-submit').addEventListener('click', () => {
       if (!formEl.reportValidity()) {
+      // if (!formEl.checkValidity()) {
         return;
       }
 
