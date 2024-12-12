@@ -60,7 +60,7 @@ function inputInputEventListener(event) {
 function inputInvalidEventListener(event) {
   // UNCOMMENT WHEN PREVENTING BROWSER ERROR MESSAGE POP UP ON SUBMIT
   // THIS PREVENTS THE POPUP
-  event.preventDefault();
+  // event.preventDefault();
 
   if (!this.willValidate) {
     return;
@@ -184,9 +184,9 @@ function formReportValidity(...args) {
 
   // UNCOMMENT WHEN PREVENTING BROWSER ERROR MESSAGE POP UP ON SUBMIT
   // THIS RESTORE FOCUS FUNCTIONALITY
-  if (!isValid) {
-    this.querySelector(':invalid')?.focus();
-  }
+  // if (!isValid) {
+  //   this.querySelector(':invalid')?.focus();
+  // }
 
   return isValid;
 };
@@ -219,12 +219,13 @@ function formFormValidationRemove(formEl) {
   }
 
   formEl.removeEventListener('reset', formResetEventListener);
+
+  const { hasAttributeNoValidate } = formEl.formValidation;
+  hasAttributeNoValidate === false && formEl.removeAttribute('novalidate');
   formEl.removeEventListener('submit', formSubmitEventListener);
 
   formEl.checkValidity = formEl.constructor.prototype.checkValidity;
   formEl.reportValidity = formEl.constructor.prototype.reportValidity;
-
-  hasAttributeNoValidate === false && formEl.removeAttribute('novalidate');
 
   delete formEl.formValidation;
 }
@@ -238,21 +239,20 @@ export default function addFormValidation(formEl) {
     return;
   }
 
-  const hasAttributeNoValidate = formEl.hasAttribute('novalidate');
-
   formEl.formValidation = {
+    hasAttributeNoValidate: formEl.hasAttribute('novalidate'),
     remove() {
       formFormValidationRemove(formEl);
     }
   };
 
-  formEl.setAttribute('novalidate', '');
-
   formEl.checkValidity = formCheckValidity
   formEl.reportValidity = formReportValidity;
 
-  formEl.addEventListener('reset', formResetEventListener);
+  formEl.setAttribute('novalidate', '');
   formEl.addEventListener('submit', formSubmitEventListener);
+
+  formEl.addEventListener('reset', formResetEventListener);
 
   for (const inputEl of formEl.elements) {
     addInputValidation(inputEl);
