@@ -7,7 +7,7 @@
   line-height: normal;
   padding: 0.5rem;
 
-  .field-error & {
+  .field-show-error.field-error & {
     border-color: darkred;
   }
 

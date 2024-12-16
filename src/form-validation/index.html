@@ -146,52 +146,26 @@
   <script type="module">
     import addFormValidation from './script.js';
 
-    const formEl = document.getElementById('form-id');
-    addFormValidation(formEl);
+    addFormValidation(document.getElementById('form-id'));
 
-    // UNCOMMENT WHEN PREVENTING DEFAULT FORM BEHAVIOR
-    // formEl.addEventListener('submit', (event) => {
-    // 	event.preventDefault();
-    // 	alert('SUBMIT');
-    // });
-
-    document.getElementById('text-id').formValidation.validators = [
-      (inputEl) => {
-        if (inputEl.value === '0') {
-          return 'Value must not be 0';
-        }
-      },
-      (inputEl) => {
-        if (inputEl.value === 'ABC') {
-          return 'Value must not be ABC';
-        }
+    document.getElementById('text-id').formValidation.validators.push((inputEl) => {
+      if (inputEl.value === '0') {
+        inputEl.setCustomValidity('Value must not be 0');
       }
-    ];
-
-    for (const checkNameEl of document.querySelectorAll('[name="checkbox-name[]"]')) {
-      checkNameEl.formValidation.validators = [
-        (inputEl) => {
-          if ([...inputEl.closest('.field').elements].filter((inputEl) => inputEl.checked).length === 0) {
-            return 'Select at least one of these options'
-          }
-        }
-      ];
-    }
-
-    document.getElementById('test-submit').addEventListener('click', () => {
-      if (!formEl.reportValidity()) {
-      // if (!formEl.checkValidity()) {
-        return;
+    }, (inputEl) => {
+      if (inputEl.value === 'ABC') {
+        inputEl.setCustomValidity('Value must not be ABC');
       }
-
-      const formData = new FormData(formEl);
-      console.log(Object.fromEntries(formData));
-      for (const pair of formData.entries()) {
-        console.log(pair[0] + ": " + pair[1]);
-      }
-
-      alert('TEST SUBMIT');
     });
+
+    for (const checkboxEl of document.querySelectorAll('[name="checkbox-name[]"]')) {
+      checkboxEl.formValidation.validators.push((inputEl) => {
+        const length = [...inputEl.closest('.field').elements].filter((inputEl) => inputEl.checked).length;
+        if (length === 0) {
+          inputEl.setCustomValidity('Value must not be ABC');
+        }
+      });
+    }
   </script>
 </body>
 

@@ -1,71 +1,40 @@
-function getBetterCustomValidityMessage(inputEl) {
-  // if (inputEl.validity.customError) {
-  //   return;
-  // }
-  // if (inputEl.validity.badInput) {
-  //   return;
-  // }
-  // if (inputEl.validity.patternMismatch) {
-  //   return;
-  // }
-  // if (inputEl.validity.rangeOverflow) {
-  //   return;
-  // }
-  // if (inputEl.validity.rangeUnderflow) {
-  //   return;
-  // }
-  // if (inputEl.validity.stepMismatch) {
-  //   return;
-  // }
-  // if (inputEl.validity.tooLong) {
-  //   return;
-  // }
-  // if (inputEl.validity.tooShort) {
-  //   return;
-  // }
-  // if (inputEl.validity.typeMismatch) {
-  //   return;
-  // }
-  // if (inputEl.validity.valueMissing) {
-  //   return;
-  // }
+function resetInput(inputEl) {
+  const { fieldEl } = inputEl.formValidation;
+  fieldEl.classList.remove('field-error');
+
+  inputEl.validity.customError && inputEl.setCustomValidity('');
 }
 
-// ==
-// METHOD OVERRIDES
-// ==
+function preValidateInput(inputEl) {
+  resetInput(inputEl);
 
-function inputCheckValidity(...args) {
-  const { setup } = this.formValidation;
-  setup();
-
-  return this.constructor.prototype.checkValidity.call(this, ...args);
+  const { validators } = inputEl.formValidation;
+  for (const validator of validators) {
+    validator(inputEl);
+    if (inputEl.validity.customError) {
+      return;
+    }
+  }
 }
 
-function inputReportValidity(...args) {
-  const { setup } = this.formValidation;
-  setup();
+function checkInputValidity(inputEl) {
+  preValidateInput(inputEl);
 
-  return this.constructor.prototype.reportValidity.call(this, ...args);
-};
+  inputEl.checkValidity();
+}
 
 // ==
 // EVENT LISTENERS
 // ==
 
-function inputInputEventListener(event) {
-  inputCheckValidity.call(this);
-};
+function inputInputEventListener() {
+  checkInputValidity(this);
 
-function inputInvalidEventListener(event) {
-  // UNCOMMENT WHEN PREVENTING BROWSER ERROR MESSAGE POP UP ON SUBMIT
-  // THIS PREVENTS THE POPUP
-  // event.preventDefault();
+  const { fieldEl } = this.formValidation;
+  fieldEl.classList.add('field-show-error');
+}
 
-  if (!this.willValidate) {
-    return;
-  }
-
+function inputInvalidEventListener() {
   const { errorEl, fieldEl } = this.formValidation;
 
   if (errorEl) {
@@ -73,188 +42,119 @@ function inputInvalidEventListener(event) {
   }
 
   fieldEl.classList.add('field-error');
-};
-
-// ==
-// INPUT FORM VALIDATION FUNCTIONS
-// ==
-
-function inputFormValidationReset(inputEl) {
-  const { fieldEl } = inputEl.formValidation;
-  fieldEl.classList.remove('field-error');
-
-  inputEl.validity.customError && inputEl.setCustomValidity('');
 }
 
-function inputFormValidationSetup(inputEl) {
-  if (!inputEl.willValidate) {
-    return;
-  }
-
-  const { validators, reset } = inputEl.formValidation;
-
-  reset();
-
-  if (validators) {
-    for (const getCustomValidityMessage of validators) {
-      const message = getCustomValidityMessage(inputEl);
-      if (message) {
-        inputEl.setCustomValidity(message);
-        return;
-      }
-    }
-  }
-
-  const message = getBetterCustomValidityMessage(inputEl);
-  if (message) {
-    inputEl.setCustomValidity(message);
-    return;
+function formResetEventListener() {
+  for (const inputEl of this.elements) {
+    inputEl.formValidation?.hide();
   }
 }
 
-function inputFormValidationRemove(inputEl) {
-  inputEl.removeEventListener('input', inputInputEventListener);
-  inputEl.removeEventListener('invalid', inputInvalidEventListener);
+function formSubmitListener(event) {
+  for (const inputEl of this.elements) {
+    inputEl.formValidation?.show();
+  }
 
-  inputEl.checkValidity = inputEl.constructor.prototype.checkValidity;
-  inputEl.reportValidity = inputEl.constructor.prototype.reportValidity;
-
-  const { reset } = inputEl.formValidation;
-  reset();
-
-  delete inputEl.formValidation;
+  if (!this.reportValidity()) {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+  }
 }
 
 // ==
 // ADD INPUT VALIDATION
 // ==
 
-export function addInputValidation(inputEl) {
-  if (!inputEl.willValidate || inputEl.formValidation) {
+export default function addFormValidation(el, validators = []) {
+  if (el.formValidation) {
     return;
   }
 
-  const fieldEl = inputEl.closest('.field');
+  if (el instanceof HTMLFormElement) {
+    el.formValidation = {
+      novalidate: el.hasAttribute('novalidate')
+    };
+
+    el.setAttribute('novalidate', '');
+
+    el.addEventListener('reset', formResetEventListener);
+    el.addEventListener('submit', formSubmitListener);
+
+    for (const inputEl of el.elements) {
+      addFormValidation(inputEl, validators);
+    }
+
+    return
+  }
+
+  if (!el.willValidate) {
+    return;
+  }
+
+  const fieldEl = el.closest('.field');
   if (!fieldEl) {
     return;
   }
 
-  inputEl.formValidation = {
+  const resetEventListener = function () {
+    setTimeout(function () {
+      checkInputValidity(el);
+    }, 0);
+  };
+
+  el.formValidation = {
     fieldEl,
     errorEl: fieldEl.querySelector('.field-error-text'),
-    reset() {
-      inputFormValidationReset(inputEl);
+    resetEventListener,
+    validators,
+    hide() {
+      fieldEl.classList.remove('field-show-error');
     },
-    setup() {
-      inputFormValidationSetup(inputEl);
-    },
-    remove() {
-      inputFormValidationRemove(inputEl);
+    show() {
+      fieldEl.classList.add('field-show-error');
     }
   };
 
-  inputEl.checkValidity = inputCheckValidity;
-  inputEl.reportValidity = inputReportValidity;
+  el.addEventListener('input', inputInputEventListener);
+  el.addEventListener('invalid', inputInvalidEventListener);
 
-  inputEl.addEventListener('input', inputInputEventListener);
-  inputEl.addEventListener('invalid', inputInvalidEventListener);
-}
+  el.form.addEventListener('reset', resetEventListener);
 
-////////////////////////////////////////////////////////////////////////////////
-
-function formSetup(formEl) {
-  for (const inputEl of formEl.elements) {
-    inputEl.formValidation?.setup?.()
-  }
+  checkInputValidity(el);
 }
 
 // ==
-// METHOD OVERRIDE
+// REMOVE INPUT VALIDATION
 // ==
 
-function formCheckValidity(...args) {
-  formSetup(this);
-  return this.constructor.prototype.checkValidity.call(this, ...args);
-};
-
-function formReportValidity(...args) {
-  formSetup(this);
-
-  const isValid = this.constructor.prototype.reportValidity.call(this, ...args);
-
-  // UNCOMMENT WHEN PREVENTING BROWSER ERROR MESSAGE POP UP ON SUBMIT
-  // THIS RESTORE FOCUS FUNCTIONALITY
-  // if (!isValid) {
-  //   this.querySelector(':invalid')?.focus();
-  // }
-
-  return isValid;
-};
-
-// ==
-// EVENT LISTENERS
-// ==
-
-function formResetEventListener(event) {
-  for (const inputEl of this.elements) {
-    inputEl.formValidation?.reset?.()
-  }
-};
-
-function formSubmitEventListener(event) {
-  if (!this.reportValidity()) {
-    event.preventDefault();
-    event.stopImmediatePropagation();
-    return;
-  }
-};
-
-// ==
-// FORM FORM VALIDATION FUNCTIONS
-// ==
-
-function formFormValidationRemove(formEl) {
-  for (const inputEl of formEl.elements) {
-    inputEl.formValidation?.remove?.()
-  }
-
-  formEl.removeEventListener('reset', formResetEventListener);
-
-  const { hasAttributeNoValidate } = formEl.formValidation;
-  hasAttributeNoValidate === false && formEl.removeAttribute('novalidate');
-  formEl.removeEventListener('submit', formSubmitEventListener);
-
-  formEl.checkValidity = formEl.constructor.prototype.checkValidity;
-  formEl.reportValidity = formEl.constructor.prototype.reportValidity;
-
-  delete formEl.formValidation;
-}
-
-// ==
-// ADD FORM VALIDATION
-// ==
-
-export default function addFormValidation(formEl) {
-  if (formEl.formValidation) {
+export function removeFormValidation(el) {
+  if (!el.formValidation) {
     return;
   }
 
-  formEl.formValidation = {
-    hasAttributeNoValidate: formEl.hasAttribute('novalidate'),
-    remove() {
-      formFormValidationRemove(formEl);
+  if (el instanceof HTMLFormElement) {
+    for (const inputEl of el.elements) {
+      removeFormValidation(inputEl);
     }
-  };
 
-  formEl.checkValidity = formCheckValidity
-  formEl.reportValidity = formReportValidity;
+    el.removeEventListener('reset', formResetEventListener);
+    el.removeEventListener('submit', formSubmitListener);
 
-  formEl.setAttribute('novalidate', '');
-  formEl.addEventListener('submit', formSubmitEventListener);
+    const { novalidate } = el.formValidation;
+    !novalidate && el.removeAttribute('novalidate');
 
-  formEl.addEventListener('reset', formResetEventListener);
+    delete el.formValidation;
 
-  for (const inputEl of formEl.elements) {
-    addInputValidation(inputEl);
+    return;
   }
+
+  resetInput(el);
+
+  const { resetEventListener } = el.formValidation;
+  el.form.removeEventListener('reset', resetEventListener);
+
+  el.removeEventListener('input', inputInputEventListener);
+  el.removeEventListener('invalid', inputInvalidEventListener);
+
+  delete el.formValidation;
 }

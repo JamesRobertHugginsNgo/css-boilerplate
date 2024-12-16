@@ -31,7 +31,7 @@
     display: none;
   }
 
-  &.field-error {
+  &.field-show-error.field-error {
 
     &>label,
     &>legend {
