@@ -166,24 +166,8 @@
   <script type="module">
     import addFormValidation from './script.js';
 
-    function commonFullNameValidator(inputEl) {
-      const customValidities = [];
-      const { fieldEl } = inputEl.formValidation;
-      for (const el of fieldEl.elements) {
-        if (!el.formValidation) {
-          continue;
-        }
-        const { customValidity } = el.formValidation;
-        if (customValidity) {
-          customValidities.push(el.formValidation.customValidity);
-        }
-      }
-      if (customValidities.length > 0) {
-        inputEl.setCustomValidity(customValidities.join(', '));
-      }
-    }
-
-    addFormValidation(document.getElementById('form-id'), (inputEl) => {
+    const formEl = document.getElementById('form-id');
+    addFormValidation(formEl, (inputEl) => {
       switch (inputEl.getAttribute('name')) {
         case 'checkbox-name[]':
           inputEl.formValidation.validators.push((inputEl) => {
@@ -223,6 +207,12 @@
           break;
       }
     });
+
+    document.querySelector('button[type="button"]').addEventListener('click', () => {
+      if (formEl.formValidation.reportValidity()) {
+        alert('SUBMIT');
+      }
+    })
   </script>
 </body>
 

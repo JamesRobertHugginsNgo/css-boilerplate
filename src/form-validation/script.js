@@ -1,3 +1,9 @@
+function getValidationMessages(fieldEl) {
+  return [...fieldEl.elements]
+    .map((el) => el.validationMessage)
+    .filter((value, index, array) => value && array.indexOf(value) === index);
+}
+
 function resetInput(inputEl) {
   const { errorEl, fieldEl } = inputEl.formValidation;
 
@@ -6,9 +12,7 @@ function resetInput(inputEl) {
   }
 
   if (fieldEl instanceof HTMLFieldSetElement) {
-    const validationMessages = [...fieldEl.elements]
-      .map((el) => el.validationMessage)
-      .filter((value, index, array) => value && array.indexOf(value) === index);
+    const validationMessages = getValidationMessages(fieldEl);
     if (validationMessages.length > 0) {
       errorEl.textContent = validationMessages.join(', ');
       return;
@@ -22,7 +26,6 @@ function preValidateInput(inputEl) {
   resetInput(inputEl);
 
   const { validators } = inputEl.formValidation;
-
   for (const validator of validators) {
     validator(inputEl);
     if (inputEl.validity.customError) {
@@ -34,6 +37,14 @@ function preValidateInput(inputEl) {
 function checkInputValidity(inputEl) {
   preValidateInput(inputEl);
   inputEl.checkValidity();
+}
+
+function reportFormValidity(formEl) {
+  for (const inputEl of formEl.elements) {
+    inputEl.formValidation?.showValidity();
+  }
+
+  return formEl.reportValidity();
 }
 
 // ==
@@ -51,14 +62,9 @@ function inputInvalidEventListener() {
   const { errorEl, fieldEl } = this.formValidation;
 
   if (errorEl) {
-    if (fieldEl instanceof HTMLFieldSetElement) {
-      const validationMessages = [...fieldEl.elements]
-        .map((el) => el.validationMessage)
-        .filter((value, index, array) => value && array.indexOf(value) === index);
-      errorEl.textContent = validationMessages.join(', ');
-    } else {
-      errorEl.textContent = this.validationMessage;
-    }
+    errorEl.textContent = fieldEl instanceof HTMLFieldSetElement
+      ? getValidationMessages(fieldEl).join(', ')
+      : this.validationMessage;
   }
 
   fieldEl.classList.add('field-error');
@@ -71,11 +77,7 @@ function formResetEventListener() {
 }
 
 function formSubmitListener(event) {
-  for (const inputEl of this.elements) {
-    inputEl.formValidation?.showValidity();
-  }
-
-  if (!this.reportValidity()) {
+  if (!reportFormValidity(this)) {
     event.preventDefault();
     event.stopImmediatePropagation();
   }
@@ -92,7 +94,10 @@ export default function addFormValidation(el, callback) {
 
   if (el instanceof HTMLFormElement) {
     el.formValidation = {
-      hasNovalidate: el.hasAttribute('novalidate')
+      hasNovalidate: el.hasAttribute('novalidate'),
+      reportValidity() {
+        return reportFormValidity(el);
+      }
     };
 
     el.setAttribute('novalidate', '');
@@ -160,7 +165,7 @@ export function removeFormValidation(el, callback) {
     callback?.(el);
 
     for (const inputEl of el.elements) {
-      removeFormValidation(inputEl);
+      removeFormValidation(inputEl, callback);
     }
 
     el.removeEventListener('reset', formResetEventListener);
