@@ -164,7 +164,7 @@
   </main>
 
   <script type="module">
-    import addFormValidation from './script.js';
+    import addFormValidation, { reportFormValidity } from './script.js';
 
     const formEl = document.getElementById('form-id');
     addFormValidation(formEl, (inputEl) => {
@@ -209,7 +209,7 @@
     });
 
     document.querySelector('button[type="button"]').addEventListener('click', () => {
-      if (formEl.formValidation.reportValidity()) {
+      if (reportFormValidity(formEl)) {
         alert('SUBMIT');
       }
     })

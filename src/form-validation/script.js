@@ -39,14 +39,6 @@ function checkInputValidity(inputEl) {
   inputEl.checkValidity();
 }
 
-function reportFormValidity(formEl) {
-  for (const inputEl of formEl.elements) {
-    inputEl.formValidation?.showValidity();
-  }
-
-  return formEl.reportValidity();
-}
-
 // ==
 // EVENT LISTENERS
 // ==
@@ -84,6 +76,18 @@ function formSubmitListener(event) {
 }
 
 // ==
+// REPORT FORM VALIDITY
+// ==
+
+export function reportFormValidity(formEl) {
+  for (const inputEl of formEl.elements) {
+    inputEl.formValidation?.showValidity();
+  }
+
+  return formEl.reportValidity();
+}
+
+// ==
 // ADD INPUT VALIDATION
 // ==
 
@@ -94,10 +98,7 @@ export default function addFormValidation(el, callback) {
 
   if (el instanceof HTMLFormElement) {
     el.formValidation = {
-      hasNovalidate: el.hasAttribute('novalidate'),
-      reportValidity() {
-        return reportFormValidity(el);
-      }
+      hasNovalidate: el.hasAttribute('novalidate')
     };
 
     el.setAttribute('novalidate', '');
