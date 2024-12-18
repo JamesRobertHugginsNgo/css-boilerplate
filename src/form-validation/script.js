@@ -2,7 +2,9 @@ function resetInput(inputEl) {
   const { fieldEl } = inputEl.formValidation;
   fieldEl.classList.remove('field-error');
 
-  inputEl.validity.customError && inputEl.setCustomValidity('');
+  if (inputEl.validity.customError) {
+    inputEl.setCustomValidity('');
+  }
 }
 
 function preValidateInput(inputEl) {
@@ -19,7 +21,6 @@ function preValidateInput(inputEl) {
 
 function checkInputValidity(inputEl) {
   preValidateInput(inputEl);
-
   inputEl.checkValidity();
 }
 
@@ -30,8 +31,8 @@ function checkInputValidity(inputEl) {
 function inputInputEventListener() {
   checkInputValidity(this);
 
-  const { fieldEl } = this.formValidation;
-  fieldEl.classList.add('field-show-error');
+  const { showValidity } = this.formValidation;
+  showValidity();
 }
 
 function inputInvalidEventListener() {
@@ -46,13 +47,13 @@ function inputInvalidEventListener() {
 
 function formResetEventListener() {
   for (const inputEl of this.elements) {
-    inputEl.formValidation?.hide();
+    inputEl.formValidation?.hideValidity();
   }
 }
 
 function formSubmitListener(event) {
   for (const inputEl of this.elements) {
-    inputEl.formValidation?.show();
+    inputEl.formValidation?.showValidity();
   }
 
   if (!this.reportValidity()) {
@@ -65,7 +66,7 @@ function formSubmitListener(event) {
 // ADD INPUT VALIDATION
 // ==
 
-export default function addFormValidation(el, validators = []) {
+export default function addFormValidation(el, callback) {
   if (el.formValidation) {
     return;
   }
@@ -81,10 +82,12 @@ export default function addFormValidation(el, validators = []) {
     el.addEventListener('submit', formSubmitListener);
 
     for (const inputEl of el.elements) {
-      addFormValidation(inputEl, validators);
+      addFormValidation(inputEl, callback);
     }
 
-    return
+    callback?.(el);
+
+    return;
   }
 
   if (!el.willValidate) {
@@ -106,11 +109,14 @@ export default function addFormValidation(el, validators = []) {
     fieldEl,
     errorEl: fieldEl.querySelector('.field-error-text'),
     resetEventListener,
-    validators,
-    hide() {
+    validators: [],
+    checkInputValidity() { // TODO - FIGURE OUT IF THIS IS NEEDED
+      checkInputValidity(el);
+    },
+    hideValidity() {
       fieldEl.classList.remove('field-show-error');
     },
-    show() {
+    showValidity() {
       fieldEl.classList.add('field-show-error');
     }
   };
@@ -120,6 +126,8 @@ export default function addFormValidation(el, validators = []) {
 
   el.form.addEventListener('reset', resetEventListener);
 
+  callback?.(el);
+
   checkInputValidity(el);
 }
 
@@ -127,12 +135,14 @@ export default function addFormValidation(el, validators = []) {
 // REMOVE INPUT VALIDATION
 // ==
 
-export function removeFormValidation(el) {
+export function removeFormValidation(el, callback) {
   if (!el.formValidation) {
     return;
   }
 
   if (el instanceof HTMLFormElement) {
+    callback?.(el);
+
     for (const inputEl of el.elements) {
       removeFormValidation(inputEl);
     }
@@ -140,13 +150,17 @@ export function removeFormValidation(el) {
     el.removeEventListener('reset', formResetEventListener);
     el.removeEventListener('submit', formSubmitListener);
 
-    const { novalidate } = el.formValidation;
-    !novalidate && el.removeAttribute('novalidate');
+    const { novalidate = true } = el.formValidation;
+    if (!novalidate) {
+      el.removeAttribute('novalidate');
+    }
 
     delete el.formValidation;
 
     return;
   }
+
+  callback?.(el);
 
   resetInput(el);
 

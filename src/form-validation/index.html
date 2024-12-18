@@ -17,9 +17,18 @@
       margin-right: 1rem;
     }
 
-    fieldset {
+    .field {
       margin-bottom: 1rem;
       margin-top: 1rem;
+    }
+
+    .full-name {
+      display: flex;
+      gap: 0.25rem;
+
+      & * {
+        flex: 1;
+      }
     }
   </style>
 </head>
@@ -134,6 +143,17 @@
           <span class="field-error-text"></span>
         </fieldset>
 
+        <fieldset class="field">
+          <legend>Full Name</legend>
+          <span class="field-help-text">Help text</span>
+          <span class="full-name">
+            <input name="first-name" required type="text" id="first-name" class="field-input">
+            <input name="last-name" required type="text" id="last-name" class="field-input">
+          </span>
+          <span class="field-help-text">Help text</span>
+          <span class="field-error-text"></span>
+        </fieldset>
+
         <p>
           <button type="button" class="field-button" id="test-submit">Test Submit</button>
           <button type="reset" class="field-button">Reset</button>
@@ -146,26 +166,52 @@
   <script type="module">
     import addFormValidation from './script.js';
 
-    addFormValidation(document.getElementById('form-id'));
+    addFormValidation(document.getElementById('form-id'), (inputEl) => {
+      switch (inputEl.getAttribute('name')) {
+        case 'checkbox-name[]':
+          inputEl.formValidation.validators.push((inputEl) => {
+            const length = [...inputEl.closest('.field').elements].filter((inputEl) => inputEl.checked).length;
+            if (length === 0) {
+              inputEl.setCustomValidity('Select at least one of these options');
+            }
+          });
+          break;
 
-    document.getElementById('text-id').formValidation.validators.push((inputEl) => {
-      if (inputEl.value === '0') {
-        inputEl.setCustomValidity('Value must not be 0');
-      }
-    }, (inputEl) => {
-      if (inputEl.value === 'ABC') {
-        inputEl.setCustomValidity('Value must not be ABC');
+        case 'text-id':
+          inputEl.formValidation.validators.push((inputEl) => {
+            if (inputEl.value === '0') {
+              inputEl.setCustomValidity('Value must not be 0');
+            }
+          }, (inputEl) => {
+            if (inputEl.value === 'ABC') {
+              inputEl.setCustomValidity('Value must not be ABC');
+            }
+          });
+          break;
+
+        case 'first-name':
+        inputEl.formValidation.lastNameEl = inputEl.formValidation.fieldEl.querySelector('[name="last-name"]');
+          inputEl.formValidation.validators.push((inputEl) => {
+            if (inputEl.validity.valueMissing) {
+              inputEl.setCustomValidity('First Name is missing');
+            }
+          });
+          break;
+
+        case 'last-name':
+          inputEl.formValidation.firstNameEl = inputEl.formValidation.fieldEl.querySelector('[name="first-name"]');
+          inputEl.formValidation.validators.push((inputEl) => {
+            if (inputEl.validity.valueMissing) {
+              const customValidity = [
+              inputEl.formValidation.firstNameEl.validationMessage,
+                'Last Name is missing'
+              ].filter(Boolean).join(', ');
+              inputEl.setCustomValidity(customValidity);
+            }
+          });
+          break;
       }
     });
-
-    for (const checkboxEl of document.querySelectorAll('[name="checkbox-name[]"]')) {
-      checkboxEl.formValidation.validators.push((inputEl) => {
-        const length = [...inputEl.closest('.field').elements].filter((inputEl) => inputEl.checked).length;
-        if (length === 0) {
-          inputEl.setCustomValidity('Value must not be ABC');
-        }
-      });
-    }
   </script>
 </body>
 
