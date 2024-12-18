@@ -92,7 +92,7 @@ export default function addFormValidation(el, callback) {
 
   if (el instanceof HTMLFormElement) {
     el.formValidation = {
-      novalidate: el.hasAttribute('novalidate')
+      hasNovalidate: el.hasAttribute('novalidate')
     };
 
     el.setAttribute('novalidate', '');
@@ -129,9 +129,6 @@ export default function addFormValidation(el, callback) {
     errorEl: fieldEl.querySelector('.field-error-text'),
     resetEventListener,
     validators: [],
-    checkInputValidity() { // TODO - FIGURE OUT IF THIS IS NEEDED
-      checkInputValidity(el);
-    },
     hideValidity() {
       fieldEl.classList.remove('field-show-error');
     },
@@ -169,8 +166,8 @@ export function removeFormValidation(el, callback) {
     el.removeEventListener('reset', formResetEventListener);
     el.removeEventListener('submit', formSubmitListener);
 
-    const { novalidate = true } = el.formValidation;
-    if (!novalidate) {
+    const { hasNovalidate } = el.formValidation;
+    if (!hasNovalidate) {
       el.removeAttribute('novalidate');
     }
 
