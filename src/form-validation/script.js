@@ -1,20 +1,32 @@
 function resetInput(inputEl) {
-  const { fieldEl } = inputEl.formValidation;
-  fieldEl.classList.remove('field-error');
+  const { errorEl, fieldEl } = inputEl.formValidation;
 
   if (inputEl.validity.customError) {
     inputEl.setCustomValidity('');
   }
+
+  if (fieldEl instanceof HTMLFieldSetElement) {
+    const validationMessages = [...fieldEl.elements]
+      .map((el) => el.validationMessage)
+      .filter((value, index, array) => value && array.indexOf(value) === index);
+    if (validationMessages.length > 0) {
+      errorEl.textContent = validationMessages.join(', ');
+      return;
+    }
+  }
+
+  fieldEl.classList.remove('field-error');
 }
 
 function preValidateInput(inputEl) {
   resetInput(inputEl);
 
   const { validators } = inputEl.formValidation;
+
   for (const validator of validators) {
     validator(inputEl);
     if (inputEl.validity.customError) {
-      return;
+      break;
     }
   }
 }
@@ -39,7 +51,14 @@ function inputInvalidEventListener() {
   const { errorEl, fieldEl } = this.formValidation;
 
   if (errorEl) {
-    errorEl.textContent = this.validationMessage;
+    if (fieldEl instanceof HTMLFieldSetElement) {
+      const validationMessages = [...fieldEl.elements]
+        .map((el) => el.validationMessage)
+        .filter((value, index, array) => value && array.indexOf(value) === index);
+      errorEl.textContent = validationMessages.join(', ');
+    } else {
+      errorEl.textContent = this.validationMessage;
+    }
   }
 
   fieldEl.classList.add('field-error');

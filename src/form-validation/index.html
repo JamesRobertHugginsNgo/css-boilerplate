@@ -155,7 +155,7 @@
         </fieldset>
 
         <p>
-          <button type="button" class="field-button" id="test-submit">Test Submit</button>
+          <button type="button" class="field-button">Test Submit</button>
           <button type="reset" class="field-button">Reset</button>
           <button class="field-button">Submit</button>
         </p>
@@ -165,6 +165,23 @@
 
   <script type="module">
     import addFormValidation from './script.js';
+
+    function commonFullNameValidator(inputEl) {
+      const customValidities = [];
+      const { fieldEl } = inputEl.formValidation;
+      for (const el of fieldEl.elements) {
+        if (!el.formValidation) {
+          continue;
+        }
+        const { customValidity } = el.formValidation;
+        if (customValidity) {
+          customValidities.push(el.formValidation.customValidity);
+        }
+      }
+      if (customValidities.length > 0) {
+        inputEl.setCustomValidity(customValidities.join(', '));
+      }
+    }
 
     addFormValidation(document.getElementById('form-id'), (inputEl) => {
       switch (inputEl.getAttribute('name')) {
@@ -190,7 +207,6 @@
           break;
 
         case 'first-name':
-        inputEl.formValidation.lastNameEl = inputEl.formValidation.fieldEl.querySelector('[name="last-name"]');
           inputEl.formValidation.validators.push((inputEl) => {
             if (inputEl.validity.valueMissing) {
               inputEl.setCustomValidity('First Name is missing');
@@ -199,14 +215,9 @@
           break;
 
         case 'last-name':
-          inputEl.formValidation.firstNameEl = inputEl.formValidation.fieldEl.querySelector('[name="first-name"]');
           inputEl.formValidation.validators.push((inputEl) => {
             if (inputEl.validity.valueMissing) {
-              const customValidity = [
-              inputEl.formValidation.firstNameEl.validationMessage,
-                'Last Name is missing'
-              ].filter(Boolean).join(', ');
-              inputEl.setCustomValidity(customValidity);
+              inputEl.setCustomValidity('Last Name is missing');
             }
           });
           break;
